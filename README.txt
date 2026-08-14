@@ -1,6 +1,8 @@
 POLYGRAPH (working title -- see RESEARCH.txt Clarification Gate)
 ====================================================================
 
+Project page: https://sopi22.github.io/polygraph/
+
 WHAT IT DOES AND WHY
 ----------------------
 Polygraph checks whether an AI model checkpoint's own declared safety
