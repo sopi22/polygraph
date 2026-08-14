@@ -1,0 +1,124 @@
+POLYGRAPH -- DEMO / PITCH SCRIPT
+===================================
+Target: ~2.5-3 minutes spoken, built around the two live demo
+scenarios already committed in examples/fixtures/. Timing marks are
+approximate (~150 wpm) -- read it once out loud and adjust to your
+own pace before the real thing.
+
+Setup, before you're called up: have a terminal open, already `cd`ed
+into the polygraph repo with the venv activated, font size big enough
+to read from the back of the room, and both commands below typed out
+(not yet run) so there's no fumbling.
+
+--------------------------------------------------------------------------------
+[0:00-0:15] HOOK
+--------------------------------------------------------------------------------
+SAY:
+"Every major AI model hosting site -- Hugging Face included -- will
+show you a little green checkmark next to a model file that says its
+scanners found nothing dangerous. Here's the problem: every one of
+those scanners works the same way, and it's a way that's already been
+beaten. A 2026 paper called ShadowPickle built an attack specifically
+to get past tools like this -- and it got past them sixty-three
+percent of the time."
+
+--------------------------------------------------------------------------------
+[0:15-0:45] THE GAP
+--------------------------------------------------------------------------------
+SAY:
+"Here's why: picklescan, fickling, ModelScan, even Hugging Face's own
+built-in scanner -- all four of them are static. They read the file's
+bytecode and guess. None of them ever actually load the file. So none
+of them can tell you what it actually DOES.
+
+The other half of the answer -- actually running a file in a sandbox
+and watching what happens -- already exists too, but only for regular
+software packages, not AI models. It's a Google-backed project called
+OSSF Package Analysis. It has the sandbox. It has no idea what the
+package claims about itself.
+
+Nobody has put those two things together. Not for AI models. That's
+Polygraph."
+
+--------------------------------------------------------------------------------
+[0:45-2:00] LIVE DEMO -- run both commands for real, don't fake it
+--------------------------------------------------------------------------------
+SAY, before running scenario 1:
+"Here's a model checkpoint. It CLAIMS to be safetensors format --
+that's the safe, modern format that can't execute code, period. Let's
+check it."
+
+RUN:
+    polygraph examples/fixtures/malicious_pickle.pkl \
+        examples/fixtures/claim_mismatch.json
+
+SAY, pointing at the red table:
+"Both checks go red. It's lying about its own format -- it's actually
+an old-style pickle file, which CAN execute code. And when we actually
+loaded it in an isolated sandbox, it tried to run a command. Caught.
+That's the obvious case -- a static scanner would've caught the lie
+too, just from reading the bytes."
+
+SAY, before running scenario 2 -- THIS IS THE MOMENT THE PITCH HANGS ON:
+"But watch what happens when the file is HONEST about what it is."
+
+RUN:
+    polygraph examples/fixtures/malicious_pickle.pkl \
+        examples/fixtures/claim_pickle.json
+
+SAY, pointing at the mixed table:
+"Same malicious file. This time it truthfully says 'I'm a pickle
+file.' Format check: green. No lie. Every static scanner on the
+market stops right here and calls this fine, because there's nothing
+dishonest to catch.
+
+But we didn't just check the label. We actually ran it, in an
+isolated sandbox with no network and a read-only filesystem. Red.
+It tried to run a command the second we loaded it. An honest label
+is not the same thing as a safe file. That's the whole pitch."
+
+--------------------------------------------------------------------------------
+[2:00-2:30] WHY IT'S HARD (the judge who cares about engineering, not just the demo)
+--------------------------------------------------------------------------------
+SAY:
+"This isn't a wrapper around an existing tool. The sandbox is real
+process isolation -- bubblewrap, the same sandboxing technology behind
+Flatpak -- with the entire filesystem read-only except one scratch
+folder, and the network namespace fully disconnected, not just
+firewalled. We found and fixed a real gap in our own first version
+during testing: an attack that targeted a file outside the sandbox got
+correctly blocked, but left no trace we were checking for -- so it
+silently reported safe. We caught that by deliberately trying to break
+our own tool before trusting it, which is the same falsification-first
+process behind our other two research projects."
+
+--------------------------------------------------------------------------------
+[2:30-2:45] CLOSE
+--------------------------------------------------------------------------------
+SAY:
+"Polygraph doesn't ask a model what it claims to be. It watches what
+it actually does. A lie detector for AI models."
+
+(stop talking here -- let the last line land, don't undercut it with
+more words)
+
+--------------------------------------------------------------------------------
+IF THERE'S TIME FOR Q&A -- LIKELY QUESTIONS
+--------------------------------------------------------------------------------
+Q: "Does this replace picklescan/those other scanners?"
+A: "No, and it shouldn't -- they're fast and they're complementary.
+   Ours is slower because it actually runs the file. Best case is
+   both: static first, behavioral as the deeper check."
+
+Q: "What happens with a real, huge model file, not your tiny test
+   fixture?"
+A: "Same mechanism, we just haven't run it against a real downloaded
+   Hugging Face checkpoint yet -- that's explicitly our next step, not
+   something we're claiming already works. We were honest about that
+   limit in our own write-up before you asked."
+
+Q: "Isn't a sandboxed process still risky to run at all?"
+A: "That's exactly why it's a locked-down namespace with no network
+   and a read-only filesystem, not a bare subprocess call -- and why
+   we deliberately tried to break it with a real attack before
+   trusting a single PASS result."
