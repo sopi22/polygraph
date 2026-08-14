@@ -58,23 +58,81 @@ RESEARCH.txt Section 4 for why).
 
 CURRENT PHASE
 --------------
-Phase 0: project brief complete (this file, RESEARCH.txt,
-RESEARCH_HYPOTHESIS.txt, LICENSE). No check code written yet -- same
-order her other two projects (FOSS Pulse, Claim Card) followed.
+Phase 1 complete: both checks implemented and passing against a
+bounded, hand-constructed synthetic fixture set (4 checkpoint files,
+3 claim files), including each check's own required deliberate
+FAIL-detection case. Falsification result: SUPPORTED for the
+mechanism (the combination catches a case neither check alone would),
+NOT yet evidence this occurs in real, naturally-authored checkpoints
+-- no real artifact tested yet. Full report in
+RESEARCH_HYPOTHESIS.txt Section 4, including a real bug found and
+fixed during this work (a blocked escape attempt that left no trace
+in the sandbox's writable directory and exited cleanly -- caught only
+by also checking stderr for the shell's own blocked-write message).
 
 SETUP / RUN
 ------------
-Not applicable yet -- Phase 0 is scoping only.
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -e ".[dev]"
 
-FEATURES (planned, Phase 1)
------------------------------
-- `sandboxed_load` check with a required, deliberate FAIL-detection
-  case (a synthetic malicious pickle payload that must actually be
-  caught, not silently pass).
+    # regenerate the fixture set (already committed under
+    # examples/fixtures/, only needed if you want to rebuild it)
+    python3 examples/fixtures/build_fixtures.py
+
+    # run a single checkpoint through both checks
+    polygraph examples/fixtures/malicious_pickle.pkl \
+        examples/fixtures/claim_pickle.json -o report.json
+
+    # run the test suite (skips the live-sandbox tests cleanly if
+    # bwrap isn't on PATH)
+    pytest
+
+DEPENDENCIES
+------------
+Runtime: none beyond the Python standard library. Dev/test: pytest.
+Sandbox: the system `bwrap` (bubblewrap) binary must be on PATH -- no
+other setup needed, no privileged step, no Docker.
+
+DEMO SCENARIOS (both fixtures already committed under examples/fixtures/)
+---------------------------------------------------------------------------
+Two named cases, both using the same rigged checkpoint
+(malicious_pickle.pkl, a pickle whose __reduce__ writes a marker file
+on load) with two different claim files, showing why this needs a
+behavioral check and not just a format-honesty check:
+
+  1. The obvious case -- checkpoint lies about its own format:
+       polygraph examples/fixtures/malicious_pickle.pkl \
+           examples/fixtures/claim_mismatch.json
+     Both checks go FAIL: it claims safetensors, is actually pickle,
+     AND behaves maliciously when loaded.
+
+  2. The case that actually makes the point -- checkpoint is HONEST
+     about its own format:
+       polygraph examples/fixtures/malicious_pickle.pkl \
+           examples/fixtures/claim_pickle.json
+     declared_format_cross_check goes PASS (it truthfully says
+     "pickle," and it is pickle -- no dishonesty at all), but
+     sandboxed_load still goes FAIL. An honest label is not the same
+     as a safe file -- this is the case RESEARCH_HYPOTHESIS.txt
+     Section 4 names as the actual evidence for this project's
+     hypothesis, not the obvious dishonest-label case.
+
+Add `--no-color` to either command for plain-text output (piping to a
+file, or a terminal without ANSI support).
+
+FEATURES
+---------
+- `sandboxed_load` check with two required, deliberate
+  FAIL-detection cases (a payload that writes into the sandbox's own
+  scratch directory, and a harder one targeting a path entirely
+  outside it) -- both must actually be caught, not silently pass.
 - `declared_format_cross_check` check comparing a checkpoint's stated
-  format claim against its real raw-byte format.
+  format claim (a small JSON sidecar file for now, see
+  RESEARCH_HYPOTHESIS.txt Section 3 for why) against its real
+  raw-byte format.
 - A single combined JSON report per artifact, one predictable output
-  location.
+  location (`polygraph-report.json` by default).
 
 AUTHOR
 ------
