@@ -14,30 +14,25 @@ to read from the back of the room, and both commands below typed out
 [0:00-0:15] HOOK
 --------------------------------------------------------------------------------
 SAY:
-"Every major AI model hosting site -- Hugging Face included -- will
-show you a little green checkmark next to a model file that says its
-scanners found nothing dangerous. Here's the problem: every one of
-those scanners works the same way, and it's a way that's already been
-beaten. A 2026 paper called ShadowPickle built an attack specifically
-to get past tools like this -- and it got past them sixty-three
-percent of the time."
+"A 2026 paper called ShadowPickle built an attack to beat AI model
+safety scanners -- it got past them sixty-three percent of the time.
+Every major hosting site, Hugging Face included, still uses scanners
+built exactly that way."
 
 --------------------------------------------------------------------------------
 [0:15-0:45] THE GAP
 --------------------------------------------------------------------------------
 SAY:
-"Here's why: picklescan, fickling, ModelScan, even Hugging Face's own
-built-in scanner -- all four of them are static. They read the file's
-bytecode and guess. None of them ever actually load the file. So none
-of them can tell you what it actually DOES.
+"Those scanners -- picklescan, fickling, ModelScan, Hugging Face's own
+-- are all static. They read bytecode and guess, never actually load
+the file, so none can tell you what it actually does.
 
-The other half of the answer -- actually running a file in a sandbox
-and watching what happens -- already exists too, but only for regular
-software packages, not AI models. It's a Google-backed project called
-OSSF Package Analysis. It has the sandbox. It has no idea what the
-package claims about itself.
+The other half already exists too, just not for AI models: a project
+called OSSF Package Analysis actually sandboxes a file and watches it
+run -- for regular packages. It has the sandbox. It has no idea what
+the package claims about itself.
 
-Nobody has put those two things together. Not for AI models. That's
+Nobody's put those two things together for AI models. That's
 Polygraph."
 
 --------------------------------------------------------------------------------
@@ -81,16 +76,16 @@ is not the same thing as a safe file. That's the whole pitch."
 [2:00-2:30] WHY IT'S HARD (the judge who cares about engineering, not just the demo)
 --------------------------------------------------------------------------------
 SAY:
-"This isn't a wrapper around an existing tool. The sandbox is real
-process isolation -- bubblewrap, the same sandboxing technology behind
-Flatpak -- with the entire filesystem read-only except one scratch
-folder, and the network namespace fully disconnected, not just
-firewalled. We found and fixed a real gap in our own first version
-during testing: an attack that targeted a file outside the sandbox got
-correctly blocked, but left no trace we were checking for -- so it
-silently reported safe. We caught that by deliberately trying to break
-our own tool before trusting it, which is the same falsification-first
-process behind our other two research projects."
+"This is real process isolation, not a wrapper -- bubblewrap, the
+same sandboxing tech behind Flatpak, with the filesystem read-only
+except one scratch folder and the network fully disconnected, not
+just firewalled.
+
+We even found a real gap in our own first version: an attack outside
+the sandbox got blocked, but left no trace we were checking for, so
+it silently reported safe. We caught it by deliberately trying to
+break our own tool -- same falsification-first process behind our
+other two projects."
 
 --------------------------------------------------------------------------------
 [2:30-2:45] CLOSE
