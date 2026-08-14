@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Polygraph</title>
+<meta name="description" content="A lie detector for AI models -- checks what a checkpoint claims against what it actually does when loaded." />
+<style>
+  :root {
+    --bg: #edeff0;
+    --surface: #ffffff;
+    --ink: #1b2430;
+    --ink-muted: #5b6672;
+    --accent: #9c5a22;
+    --pass: #1f7a4d;
+    --fail: #b33a2e;
+    --border: #d7dad9;
+    --serif: ui-serif, Charter, "Iowan Old Style", Georgia, "Times New Roman", serif;
+    --sans: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14171b;
+      --surface: #1c2024;
+      --ink: #e8e9e7;
+      --ink-muted: #97a0a8;
+      --accent: #d08a4a;
+      --pass: #3fbe82;
+      --fail: #e2685a;
+      --border: #2b3035;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14171b;
+    --surface: #1c2024;
+    --ink: #e8e9e7;
+    --ink-muted: #97a0a8;
+    --accent: #d08a4a;
+    --pass: #3fbe82;
+    --fail: #e2685a;
+    --border: #2b3035;
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    margin: 0;
+    padding: 4rem 1.5rem 5rem;
+  }
+
+  .sheet {
+    max-width: 42rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+  }
+
+  /* ---- header ---- */
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 3.1rem);
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .pitch {
+    font-size: 1.1rem;
+    color: var(--ink-muted);
+    max-width: 34rem;
+    margin: 0;
+  }
+  .pitch strong { color: var(--ink); font-weight: 600; }
+
+  /* ---- stat block ---- */
+  .stat {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+  .stat-number {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 4.5rem;
+    line-height: 1;
+    color: var(--fail);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-body { display: flex; flex-direction: column; gap: 0.35rem; }
+  .stat-label {
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .stat-source {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+  }
+
+  /* ---- evidence table ---- */
+  section h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin: 0 0 0.25rem;
+  }
+  .case-line {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin: 0 0 1rem;
+  }
+  .case-line b { color: var(--ink); font-weight: 600; }
+
+  .evidence {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow-x: auto;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  thead th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  .check-name { font-family: var(--mono); font-size: 0.85rem; white-space: nowrap; }
+  .detail { color: var(--ink-muted); }
+  .stamp {
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .stamp.pass { color: var(--pass); border: 1.5px solid var(--pass); }
+  .stamp.fail { color: var(--fail); border: 1.5px solid var(--fail); }
+
+  .verdict {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin: 1.1rem 0 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--accent);
+  }
+
+  /* ---- footer ---- */
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+  }
+  footer a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+  footer a:hover, footer a:focus-visible { border-bottom-color: var(--ink); }
+  footer a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ci-badge { display: flex; align-items: center; gap: 0.6rem; }
+  .ci-badge img { display: block; height: 20px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="masthead">
+    <div class="eyebrow">Case File &mdash; Model Checkpoint Verification</div>
+    <h1>Polygraph</h1>
+    <p class="pitch">
+      A lie detector for AI models &mdash; <strong>Polygraph checks what a
+      checkpoint claims about itself against what it actually does when
+      loaded</strong>, not just whether the label is honest.
+    </p>
+  </header>
+
+  <section class="stat">
+    <div class="stat-number">63%</div>
+    <div class="stat-body">
+      <div class="stat-label">
+        of current AI model safety scanners bypassed by a single attack
+        built specifically to beat them.
+      </div>
+      <div class="stat-source">ShadowPickle, arXiv:2607.17503 &mdash; every scanner it beat is static: none of them ever load the file.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Exhibit A: an honest label isn't a safe file</h2>
+    <p class="case-line">
+      checkpoint: <b>malicious_pickle.pkl</b> &nbsp;&middot;&nbsp;
+      claim: <b>declared_format = pickle</b> (truthful &mdash; no dishonesty to catch)
+    </p>
+    <div class="evidence">
+      <table>
+        <thead>
+          <tr><th>Check</th><th>Observed</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="check-name">declared_format_cross_check</td>
+            <td><span class="stamp pass">PASS</span></td>
+            <td class="detail">declared format 'pickle' matches actual format 'pickle'</td>
+          </tr>
+          <tr>
+            <td class="check-name">sandboxed_load</td>
+            <td><span class="stamp fail">FAIL</span></td>
+            <td class="detail">load wrote to the sandbox's writable directory &mdash; a clean load should write nothing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="verdict">
+      The label wasn't lying. The file was. Every static scanner on the
+      market stops at the first row and calls this fine.
+    </p>
+  </section>
+
+  <footer>
+    <div class="ci-badge">
+      <a href="https://github.com/sopi22/polygraph/actions/workflows/ci.yml">
+        <img src="https://github.com/sopi22/polygraph/actions/workflows/ci.yml/badge.svg" alt="CI status" />
+      </a>
+      <span>16/16 tests passing</span>
+    </div>
+    <a href="https://github.com/sopi22/polygraph">github.com/sopi22/polygraph &rarr;</a>
+  </footer>
+
+</div>
+</body>
+</html>
