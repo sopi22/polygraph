@@ -117,12 +117,10 @@ on load) with two different claim files:
      Both checks go FAIL: it claims safetensors, is actually pickle,
      AND behaves maliciously when loaded.
 
-  2. The case that actually makes the point -- checkpoint is HONEST
-     about its own format (shown in EXAMPLE OUTPUT above):
-     declared_format_cross_check goes PASS, sandboxed_load still goes
-     FAIL. This is the case RESEARCH_HYPOTHESIS.txt Section 4 names as
-     the actual evidence for this project's hypothesis, not the
-     obvious dishonest-label case.
+  2. The case that actually makes the point -- see EXAMPLE OUTPUT
+     above (that's this exact scenario). RESEARCH_HYPOTHESIS.txt
+     Section 4 names it as the actual evidence for this project's
+     hypothesis, not the obvious dishonest-label case above.
 
 NON-GOALS
 ---------
