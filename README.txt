@@ -139,6 +139,17 @@ novelty firewall, fork-vs-build reasoning) and RESEARCH_HYPOTHESIS.txt
 (hypothesis, entropy budget, per-check justification, falsification
 report). DEMO_SCRIPT.txt has the pitch/demo walkthrough.
 
+RESEARCH LINEAGE
+------------------
+Polygraph follows the same falsification-first, novelty-firewall
+methodology used in Jhoana's other research logs: PULSE EXPERIMENT
+001 -- RESEARCH LOG and CLAIM CARD -- RESEARCH LOG. Both state a
+hypothesis and a falsification criterion before running anything,
+search for existing solutions before building, and log negative or
+partial results honestly rather than only positive ones. See
+RESEARCH.txt Section 15 for exactly where this repo applies that same
+discipline, with citations, not just this claim restated.
+
 CI
 ---
 GitHub Actions (.github/workflows/ci.yml) runs the full test suite,

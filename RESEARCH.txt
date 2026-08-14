@@ -458,3 +458,57 @@ Full research hypothesis, falsification criteria, vocabulary lock, and
 
 Course/context overrides to Sections 8-12: none -- all apply as
   written above.
+
+================================================================================
+15. RESEARCH LINEAGE -- EVIDENCE MAPPING
+================================================================================
+Concrete citations for the "Research Lineage" claim in README.txt --
+each claim mapped to specific evidence already in this repo, not
+restated as assertion. Precision note before the mapping: this
+repo's own brief doesn't use the literal words "novelty firewall"
+anywhere -- that is the section title Pulse's and Claim Card's own
+template uses (see their own RESEARCH.txt Section 2 in each repo).
+Polygraph follows a different operator-supplied template (Section 0
+above), where the equivalent process is titled "Search, Decide, and
+Act." Same function -- read real docs before deciding, name the
+residual gap, decide honestly -- different section name, stated here
+precisely rather than claiming a section title that isn't actually in
+this file.
+
+CLAIM: Polygraph follows a search-before-building discipline, same
+  function as a novelty firewall.
+EVIDENCE: Section 4 above, "PHASE 0 -- SEARCH, DECIDE, AND ACT" -- an
+  explicit three-step process, not four: STEP 1 SEARCH (five real
+  candidate projects, each "actually fetched and read... not a
+  one-line description" before being logged); STEP 2 DECIDE (a reuse
+  evaluation against seven named criteria -- maturity, maintenance
+  activity, documentation quality, security history, license
+  compatibility, community adoption, bus factor, red flags -- with
+  tradeoffs stated explicitly for the fork-vs-independent-build call);
+  STEP 3 note (stating plainly that no close match exists for the
+  specific combination this project asks about, "a legitimate,
+  expected outcome, not a fallback to apologize for").
+
+CLAIM: falsification framing (a hypothesis and its falsification
+  criteria stated before testing, not after).
+EVIDENCE: RESEARCH_HYPOTHESIS.txt Section 1, "RESEARCH HYPOTHESIS
+  FRAMING" -- states H1 and H0 explicitly, plus "FALSIFICATION
+  CRITERIA (stated in advance)" before Phase 1 implementation began.
+  Same pre-registration discipline PULSE EXPERIMENT 001 -- RESEARCH
+  LOG and CLAIM CARD -- RESEARCH LOG both name in their own hypothesis
+  sections.
+
+CLAIM: the "not tested on a real checkpoint yet" gap is a named,
+  deferred caveat -- not silently dropped, and not rushed to a false
+  closure to make the result look more finished than it is.
+EVIDENCE: RESEARCH_HYPOTHESIS.txt Section 4, "FALSIFICATION REPORT (R0
+  -- Phase 1, bounded synthetic test set)". The CAVEAT paragraph states
+  directly that the result is from "a synthetic, deliberately-
+  constructed case... not that this class of case occurs naturally in
+  real, independently-authored checkpoints." The CONCLUSION repeats
+  it: "NOT yet evidence that this class of case occurs in real,
+  naturally-authored checkpoints -- no real artifact has been tested."
+  RECOMMENDED NEXT EXPERIMENT is explicitly labeled "(open item, not
+  scheduled)" -- named as the next R1 rung, not attempted, not
+  claimed, and not closed over.
+================================================================================
