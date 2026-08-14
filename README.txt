@@ -88,6 +88,12 @@ SETUP / RUN
     # bwrap isn't on PATH)
     pytest
 
+CI
+---
+GitHub Actions (.github/workflows/ci.yml) runs the full test suite,
+bwrap included, on every push/PR to main -- ubuntu-latest only,
+deliberately, since bwrap is Linux-specific.
+
 DEPENDENCIES
 ------------
 Runtime: none beyond the Python standard library. Dev/test: pytest.
