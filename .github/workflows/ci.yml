@@ -22,6 +22,14 @@ jobs:
       - name: Install bubblewrap
         run: sudo apt-get update && sudo apt-get install -y bubblewrap
 
+      - name: Allow unprivileged user namespaces
+        # ubuntu-latest defaults to Ubuntu 24.04, which restricts
+        # unprivileged user namespaces via AppArmor by default -- bwrap
+        # needs one to create its sandbox. Confirmed necessary by a real
+        # CI failure (bwrap: loopback: Failed RTM_NEWADDR: Operation not
+        # permitted), not applied speculatively.
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: Install package
         run: pip install -e ".[dev]"
 
