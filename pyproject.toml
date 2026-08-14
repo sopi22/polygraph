@@ -1,0 +1,22 @@
+[project]
+name = "polygraph"
+version = "0.1.0"
+description = "Checks whether an AI model checkpoint's own declared safety claim matches what it actually does when loaded in an isolated sandbox"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+# pytest is the one dependency beyond stdlib, and it is test-only -- the
+# runtime package has zero third-party dependencies, same justification
+# pattern as this project family's other two repos.
+dev = ["pytest>=7"]
+
+[project.scripts]
+polygraph = "polygraph.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

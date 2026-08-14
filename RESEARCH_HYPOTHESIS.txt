@@ -138,3 +138,95 @@ THE CROSS-CHECK (the actual new synthesis, not either check alone):
       signals would have disagreed and only having both caught it.
       Not yet known to exist -- Phase 1's job to look for it, not
       assumed here.
+
+================================================================================
+4. FALSIFICATION REPORT (R0 -- Phase 1, bounded synthetic test set)
+================================================================================
+
+TEST SET: four hand-constructed fixtures (safe_safetensors.bin,
+  safe_pickle.pkl, malicious_pickle.pkl,
+  malicious_pickle_outside_scratch.pkl) plus three claim files, all
+  built with stdlib only (examples/fixtures/build_fixtures.py). No
+  real downloaded Hugging Face checkpoint used yet -- named in Section
+  1's Clarification Gate as a later rung, not required to start.
+
+CHECK 1's OWN FALSIFICATION GATE (must pass before any PASS result, or
+  either H1/H0 reading below, counts):
+  BUG FOUND AND FIXED DURING THIS WORK, before declaring the check
+  done -- caught by deliberately testing the harder case, not assumed
+  safe from the easier one: the first implementation's FAIL logic
+  checked only (a) whether anything appeared in the scratch directory
+  and (b) the sandboxed process's exit code. A payload targeting an
+  absolute path OUTSIDE scratch, with its own stderr redirect also
+  targeting a path outside scratch, is silently blocked by the
+  sandbox (confirmed: the marker file never appears anywhere) but
+  `os.system()`'s own failure never raises in the parent process, so
+  the process still exits 0 and scratch stays empty -- both FAIL
+  conditions miss it entirely, and the check reported PASS for a
+  confirmed-blocked escape attempt. Root cause: the shell's own
+  "cannot create <path>: Read-only file system" message leaks into the
+  captured stderr even though nothing was written and nothing raised.
+  Fixed by also checking stderr for host-kernel escape-attempt
+  signatures (checks/sandboxed_load.py's
+  _ESCAPE_ATTEMPT_SIGNATURES). Both deliberate FAIL cases -- the
+  original (marker file written into the scratch-dir/CWD) and this
+  harder one (absolute path outside scratch) -- are now caught
+  correctly, re-verified after the fix, and both fixtures are
+  committed permanently to the test set (tests/test_sandboxed_load.py)
+  so this can't silently regress.
+
+CHECK 2's OWN FALSIFICATION GATE: the deliberate mismatch case
+  (malicious_pickle.pkl paired with a claim of "safetensors") is
+  correctly caught as FAIL. Both honest-claim cases correctly PASS.
+
+RESULT ON H1 vs. H0:
+  Within CHECK 2's own narrow question (does the declared format claim
+  match the actual format?), nothing new was found in this bounded
+  set -- every fixture's claim was either deliberately honest or
+  deliberately dishonest, and CHECK 2 caught the dishonesty correctly.
+  A check correctly doing the thing it was built to do is expected
+  behavior, not itself evidence toward H1.
+
+  The genuinely new information this run surfaced: malicious_pickle.pkl,
+  paired with an HONEST claim of "pickle format" (CHECK 2: PASS -- no
+  format dishonesty at all), still produced a confirmed-dangerous
+  sandboxed-load result (CHECK 1: FAIL). A reviewer relying on CHECK 2
+  alone -- or on any static tool that only validates whether a format
+  claim is honest, which describes every static scanner named in
+  RESEARCH.txt's novelty firewall -- would see nothing wrong with this
+  file: it truthfully says it's a pickle file, and it is one. Only
+  CHECK 1's behavioral signal caught the actual risk. This is
+  precisely the case Section 3's "THE CROSS-CHECK" named in advance as
+  the one H1 actually needs: the two signals' practical implications
+  diverge (one says "no labeling problem," the other says "dangerous
+  behavior"), and only having both caught the real issue.
+
+CAVEAT, stated plainly, not glossed over: this is a synthetic,
+  deliberately-constructed case -- I built the malicious fixture
+  myself, already knowing it was malicious. It demonstrates the
+  MECHANISM works as designed (the combination CAN surface exactly
+  this class of case), not that this class of case occurs naturally in
+  real, independently-authored checkpoints. That is a materially
+  different, weaker claim, and the distinction is named here on
+  purpose -- the same distinction Claim Card's own Section 10 drew
+  between "checks work on a synthetic fixture with known ground
+  truth" and "checks find something on a real repo with
+  naturally-occurring content."
+
+CONCLUSION: SUPPORTED for the mechanism, on a single bounded synthetic
+  test set (R0) -- the combination of a claims check and a behavioral
+  sandbox genuinely catches a class of case neither check surfaces
+  alone, demonstrated directly rather than merely argued for. NOT yet
+  evidence that this class of case occurs in real, naturally-authored
+  checkpoints -- no real artifact has been tested. One observation, one
+  bounded pilot -- not generalized further, same restraint Autopsy
+  Experiment #001 already applied to itself in this project family.
+
+RECOMMENDED NEXT EXPERIMENT (open item, not scheduled): test against a
+  real downloaded Hugging Face checkpoint -- a genuine safetensors file
+  and a genuine legacy-format pickle/.bin file from an actual public
+  repo -- to see whether both checks produce the same clean signal on
+  real-world artifacts as on the hand-built ones here. This is the
+  natural R1 rung, mirroring Pulse's own R0 (synthetic/local) -> R1
+  (first real device) progression.
+================================================================================
