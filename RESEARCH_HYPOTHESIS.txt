@@ -1,0 +1,140 @@
+POLYGRAPH -- RESEARCH HYPOTHESIS, VOCABULARY LOCK, ENTROPY BUDGET,
+AND CHECK SELECTION
+=====================================================================
+Companion to RESEARCH.txt (the operator-supplied "Fork or Build"
+template brief, Sections 0-14). This file holds the falsification-
+first framing in the same convention Jhoana's other two projects
+(FOSS Pulse, Claim Card) already use, so it isn't folded awkwardly
+into a template section that wasn't built for it. See RESEARCH.txt
+Section 4 for the full novelty-firewall search this hypothesis is
+downstream of -- not repeated here.
+
+================================================================================
+1. RESEARCH HYPOTHESIS FRAMING
+================================================================================
+
+RESEARCH HYPOTHESIS (H1):
+A checkpoint's self-declared safety posture can be checked against
+what it actually does when loaded inside an isolated sandbox, and the
+two signals together (declared claim + observed behavior) surface
+risk that neither the claim alone nor a single sandboxed run alone
+reliably would.
+
+NULL HYPOTHESIS (H0):
+The sandboxed behavioral signal always simply agrees with what a
+cheap static structural check (is the file pickle-format or
+safetensors-format?) already implies -- the sandbox adds no
+information a static check didn't already have.
+
+FALSIFICATION CRITERIA (stated in advance):
+- Toward H1: any case where the declared claim and the sandboxed
+  observation disagree -- especially one a static structural check
+  alone would have missed.
+- Toward H0: across all test artifacts, the sandboxed observation
+  always agrees 1:1 with the file's structural format alone -- a
+  complete, honest, non-failed result, not something to keep
+  re-running until it looks better.
+- SEPARATE, PRIOR gate before either of the above can mean anything:
+  the sandbox's own deliberate FAIL-detection case (Section 3 below)
+  must actually catch a synthetic malicious payload. If it doesn't,
+  that's a probe-implementation defect, not evidence about H1/H0
+  either way -- the same FAIL-detection discipline both her other
+  projects require before trusting any PASS result.
+
+WHAT WOULD CHANGE MY MIND:
+A clean, reproducible divergence between claim and behavior is the
+interesting result (supports H1). Total agreement across every real
+artifact tested is also a complete, honest experiment (supports H0),
+not a failure to explain away.
+
+================================================================================
+2. VOCABULARY LOCK AND ENTROPY BUDGET
+================================================================================
+
+Locked: claim, probe, observation, sandbox, cross-check. (Deliberately
+  reusing Pulse's "probe/observation" and Claim Card's "claim" -- this
+  project is an explicit synthesis of both, not a fresh vocabulary.)
+Forbidden: verified, proven, guaranteed, confirmed, safe, malicious --
+  about what this tool's own output claims. A sandboxed observation is
+  a flag for human review, not a finding of fact -- same epistemic
+  posture Claim Card already enforces on its own output.
+
+Entropy budget:
+  Check types: 2 maximum for Phase 1 (sandboxed behavioral load,
+    declared-format structural cross-check) -- deliberately not using
+    the full headroom either sibling project left itself.
+  Persistent format: 1 (JSON), matching both sibling projects.
+  Sandbox mechanism: 1 (bubblewrap) -- see RESEARCH.txt Clarification
+    Gate for why, and why Docker is named but deliberately not used.
+  Network calls from the framework itself: 0. Test artifacts are
+    constructed locally, not fetched live per run.
+  External services: 0.
+  Background processes: 0.
+  Dependencies: stdlib only at runtime (pickletools, struct, json,
+    subprocess to invoke bwrap). No torch, no safetensors package.
+    pytest as a dev-only dependency, same justification pattern as
+    both sibling projects.
+
+================================================================================
+3. CHECK SELECTION AND JUSTIFICATION
+================================================================================
+
+CHECK 1 -- sandboxed_load (behavioral, Pulse's DNA)
+  Assumption under test: loading this checkpoint file touches nothing
+  outside one declared scratch directory and makes no network attempt.
+  Mechanism: `bwrap` with the real filesystem entirely read-only
+  except (a) the checkpoint file itself, read-only, and (b) exactly
+  one throwaway scratch directory, read-write; `--unshare-net` with no
+  interface configured, so any socket call needing the network fails
+  at the kernel level rather than silently succeeding.
+  Observation: PASS if the load completes and nothing appeared outside
+  the scratch directory. FAIL if a write outside it, or a network
+  attempt, is observed.
+  DELIBERATE FAIL-DETECTION CASE (required before any PASS result
+  counts): a synthetic malicious pickle payload using the
+  well-documented `__reduce__` technique (a class whose `__reduce__`
+  returns `(os.system, ('touch <path-outside-scratch-dir>',))`),
+  confirmed to be observed as FAIL, not PASS -- proving the probe can
+  actually detect exploitation, not just always report PASS by
+  construction. Directly mirrors Pulse's own storage_write-against-
+  /system pattern.
+  Named limitation (stated in advance): bwrap isolates what's visible
+  to the sandboxed process, but a payload that only touches what IS
+  visible to it (the checkpoint file, the scratch dir) can't be
+  distinguished from legitimate behavior by this check alone -- the
+  same category of limitation Pulse names for adb's shell UID not
+  matching an installed app's own sandboxed UID.
+
+CHECK 2 -- declared_format_cross_check (structural claims, Claim
+  Card's DNA)
+  Assumption under test: a checkpoint's accompanying claim about its
+  own format matches what the file's own bytes actually are.
+  Mechanism: read the claim from a companion doc (reusing Claim
+  Card's own doc-discovery convention where it fits) and independently
+  determine the file's real format from its raw bytes -- a valid
+  safetensors file starts with an 8-byte little-endian header length
+  followed by a parseable JSON header (stdlib `struct`+`json`, no
+  library needed); a pickle file's opening bytes disassemble as
+  pickle protocol opcodes (stdlib `pickletools`).
+  Observation: PASS if the claim and the actual format agree. FAIL if
+  they disagree in either direction.
+
+THE CROSS-CHECK (the actual new synthesis, not either check alone):
+  report both checks' results together for the same artifact. Cases
+  named in advance:
+    - format claims safe, sandboxed load also clean: expected,
+      boring, still logged (agreement is data, not noise).
+    - format claims safe but structurally IS pickle (or vice versa):
+      CHECK 2 alone already catches this -- named so it's clear this
+      case does NOT require the sandbox to find, and isn't claimed as
+      evidence for H1 on its own.
+    - format is genuinely safetensors (structurally confirmed, so no
+      code-execution surface exists in the format itself) AND the
+      sandboxed load is clean: the strongest "no interesting
+      information" case -- both signals agreeing for a structural
+      reason, not by luck.
+    - the case H1 actually needs at least one of, to be properly
+      SUPPORTED rather than just plausible: a case where the two
+      signals would have disagreed and only having both caught it.
+      Not yet known to exist -- Phase 1's job to look for it, not
+      assumed here.

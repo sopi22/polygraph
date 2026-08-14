@@ -1,0 +1,454 @@
+POLYGRAPH -- PROJECT BRIEF
+============================
+Following the operator-supplied "Sophia's University / FOSS -- Fork or
+Build (App)" template, verbatim section order. [SOPHIA] = Jhoana Sophia
+Munar throughout, per the template's own instruction.
+
+================================================================================
+0. ROLE AND SCOPE
+================================================================================
+[SOPHIA] (Jhoana Sophia Munar) is the operator and lead developer of
+this project. It is hers -- for learning, coursework, and/or
+portfolio, explicitly NOT commercial. Her father (git identity
+"trzvk2025"/"Trozovka") may be present operating the keyboard on a
+shared device, but per this template's own rule, his git identity,
+GitHub account, tokens, or credentials are never substituted for hers
+at any point -- enforced structurally, not just by intention: this
+repo lives under `~/daughter-projects/`, which a `git config
+includeIf` already forces to her identity (name/email) regardless of
+who is typing, and any GitHub-side action (repo creation, push) can
+only happen once she is authenticated as sopi22, not before.
+
+Not commercial, not turning private -- no trigger to stop and request
+a different brief.
+
+Fork-or-build is not assumed here -- follows from Section 4 below.
+
+================================================================================
+1. OPERATOR CONTEXT
+================================================================================
+Name: Jhoana Sophia Munar ("[SOPHIA]")
+Status: first-year IT student, Mapua University, Makati, 2026.
+GitHub account: sopi22 (jhosophie@proton.me)
+Comfort level with coding/git/dev tooling: not directly stated by her
+  this session -- not guessed at here. Her own prior repos
+  (foss-escape-architecture, claim-card) show real fluency with
+  falsification-first research methodology and Python; inferred as a
+  reasonable working assumption for explanatory depth, not stated as
+  a fact she confirmed.
+OS and dev environment: same WSL2/Ubuntu environment this session runs
+  in, shared with her father's own projects under a separate git
+  identity boundary (see Section 0).
+Assisting adult present this session: her father (operator, "Trozovka"
+  git identity), by his own statement in this session.
+Account/plan constraints: none stated.
+
+================================================================================
+2. AUTONOMY PROTOCOL
+================================================================================
+Operating autonomously through routine steps (installing packages,
+writing/editing files, running tests, git commit/push, repo creation)
+per this template's instruction, reporting back plainly rather than
+dumping raw logs.
+
+Stopping and waiting for explicit confirmation for exactly the five
+named cases -- restated here as a standing checklist for this project,
+not re-decided per action:
+  (a) genuine security/privacy risk.
+  (b) irreversible/destructive git operations (history rewrites,
+      force-pushes, deleting branches/files).
+  (c) operator-only information needed (would otherwise mean
+      guessing).
+  (d) a fork path is chosen, or a license check turns up anything
+      restrictive/missing -- repo stays non-public until resolved
+      with [SOPHIA]. (Section 4 below already resolves fork-vs-build
+      for Phase 0; this stays the standing rule if that ever changes.)
+  (e) any action needing credentials/tokens/account access belonging
+      to the assisting adult rather than [SOPHIA] -- always stop,
+      never substitute (see Section 0).
+
+================================================================================
+3. SECURITY AND PRIVACY -- NON-NEGOTIABLE
+================================================================================
+- No hardcoded secrets, ever, from commit one. This project's Phase 0
+  design (Section 4) needs zero secrets/tokens of any kind to run --
+  no external API, no network call from the tool itself -- so this is
+  easy to hold to structurally, not just by discipline. If a later
+  phase ever needs one (e.g. a Hugging Face Hub API token to fetch a
+  real test checkpoint), it goes in an environment variable or a
+  gitignored local config file, never in source.
+- Leaked secret protocol: rotate immediately at the issuing service,
+  then clean history as hygiene on top of the fix, never instead of
+  it -- exactly the two-step order already followed this session for
+  the separate sopi22 credential-leak incident (see the security-audit
+  record, kept outside this repo).
+- Destructive git operations: always a stop-and-wait moment, no
+  exceptions carved out for this project.
+- Personal information: kept out of code, commits, comments. Her real
+  email already appears in README/LICENSE author lines by her own
+  standing convention on her other repos (foss-escape-architecture,
+  claim-card) -- not changed here, matching precedent, not introducing
+  a new exposure.
+- 2FA reminder (stated plainly, not just logged): worth confirming
+  2FA is enabled on the sopi22 GitHub account if it isn't already,
+  independent of this project.
+- Personal device & data boundary: NOT APPLICABLE for Phase 0 as
+  scoped -- this project's test artifacts are hand-constructed local
+  files (Section 4/6), not anything read from a personal device. If a
+  later phase ever wants to test against, say, a real phone's
+  storage or a real downloaded model file, that boundary gets stated
+  explicitly before any device/external data source is touched, per
+  this section's own requirement -- named here in advance so it isn't
+  forgotten later.
+- Credential hygiene: no token exists for this project yet. If one is
+  ever needed, it MUST be fine-grained, scoped to only what's needed,
+  with an expiration set -- never "no expiration," never broad classic
+  `repo` scope unless a fine-grained token demonstrably can't do the
+  job. A one-time manual action (logging in, clicking a setting) is
+  preferred over minting a standing token for a one-off need.
+
+================================================================================
+4. PHASE 0 -- SEARCH, DECIDE, AND ACT
+================================================================================
+
+RESEARCH QUESTION (this project's own, feeding the search below):
+Does a self-declared safety claim about an AI model checkpoint (e.g.
+"safetensors only, no pickle", "no custom code executed on load")
+actually match what the artifact does when loaded inside a sandbox
+that can observe real behavior -- and does combining that claims-check
+with a real sandboxed load surface risk that neither check alone
+would catch?
+
+STEP 1 -- SEARCH (actually fetched and read each project's own
+  docs/README, not a one-line description, before logging anything
+  here):
+
+1. picklescan (mmaitre314/picklescan) -- static only. Disassembles
+   pickle opcodes via stdlib `pickletools`, flags dangerous
+   GLOBAL/REDUCE calls against an allow/block-list. Never loads or
+   executes the file. Has a documented bypass (GHSA-jgw4-cr84-mqxg).
+   License: MIT. 418 stars, 3 open issues, last pushed 2026-07-23 --
+   active, small, healthy.
+
+2. fickling (trailofbits/fickling) -- static/symbolic only. Decompiles
+   pickle bytecode to readable Python and symbolically executes the
+   VM's stack operations -- explicitly designed to be safe to run
+   because it never really executes the payload.
+   License: LGPL-3.0. 662 stars, 13 open issues, last pushed
+   2026-08-13 (yesterday) -- actively maintained, backed by a
+   professional security-research firm.
+
+3. ModelScan (protectai/modelscan) -- static byte-pattern scan across
+   pickle/H5/SavedModel/Keras-V3. Never loads the model.
+   License: Apache-2.0. 762 stars, 77 open issues, last pushed
+   2026-02-18 -- roughly six months stale relative to today; still
+   the most-starred of the three, but showing less recent activity.
+
+4. Hugging Face Hub's own scanning (Pickle Import Scan + ClamAV +
+   Protect AI Guardian) -- three layered, all-static checks built
+   into the Hub itself, not a standalone repo to fork. HF's own docs
+   explicitly disclaim completeness ("not 100% foolproof").
+
+5. OSSF Package Analysis (ossf/package-analysis) -- the closest
+   architectural precedent to what this project wants for its
+   sandbox layer: a real gVisor sandbox with strace + packet capture,
+   for npm/PyPI packages, logging file/network/subprocess behavior
+   and diffing it release-over-release.
+   License: Apache-2.0. 903 stars, 83 open issues, last pushed
+   2026-08-07 -- actively maintained, OpenSSF-governed (strong
+   institutional backing, low bus-factor risk at the project level).
+   Scoped to generic npm/PyPI packages, not ML checkpoints, and built
+   as continuously-running infrastructure (Go, GCP, BigQuery, Cloud
+   Run) for scanning the entire package firehose at scale -- not a
+   single-machine, bounded research tool.
+
+None of the five do the specific thing this project asks: cross-check
+a checkpoint's OWN declared safety claim against what a sandbox
+actually observes when it's loaded. The static tools (1-4) never
+execute anything, so they have no behavioral signal to check a claim
+against. OSSF Package Analysis (5) has the behavioral signal but no
+claims layer at all, and isn't scoped to ML checkpoints.
+
+Corroborating evidence this gap is real, not just unnoticed: an
+academic attack purpose-built to evade static pickle scanners
+(ShadowPickle, arXiv 2607.17503) reports a 63% bypass rate against the
+current generation of tools like (1)-(4) -- a published number, not a
+guess, that static-only scanning has a real, demonstrated hole a
+behavioral layer would help close.
+
+STEP 2 -- DECIDE (fork vs. inspiration-only vs. independent, tradeoffs
+  stated explicitly, per this template's own requirement):
+
+REUSE EVALUATION, against the template's named criteria:
+  Maturity: all four real repos (1,2,3,5) are mature, real projects
+    with hundreds of stars and years of use -- not the concern.
+  Maintenance activity: picklescan, fickling, and OSSF Package
+    Analysis all show pushes within the last week; ModelScan is the
+    one showing real staleness (~6 months) among the four.
+  Documentation quality: all four have real, readable docs (fetched
+    and read directly, not assumed from a landing page).
+  Security history: fickling and picklescan both exist specifically
+    because of documented real-world pickle exploitation history in
+    this exact space -- a point in favor of their domain judgment,
+    not a red flag.
+  License compatibility: MIT (picklescan), LGPL-3.0 (fickling),
+    Apache-2.0 (ModelScan, OSSF Package Analysis) -- all permissive
+    enough to fork under, if forking were the right call. Not the
+    blocker either way.
+  Community adoption: real (400-900+ stars each) but, per this
+    template's own instruction, never treated as the deciding factor
+    on its own.
+  Bus factor: picklescan is the smallest team by a wide margin (a
+    personal/small-maintainer project judging by issue-response
+    pattern); fickling and ModelScan are corporately backed (Trail of
+    Bits, Protect AI); OSSF Package Analysis is foundation-governed --
+    lowest bus-factor risk of the four, structurally.
+  Red flags: none found for any of the four -- no abandonment,
+    ownership churn, or license-change history surfaced in this pass.
+
+WHY NOT FORK ANY OF THEM: the architectural mismatch is the real
+  reason, not any of the criteria above. picklescan/fickling/ModelScan
+  are built around NOT executing the payload -- their entire design
+  philosophy is the opposite of what this project needs (a real
+  sandboxed execution). Adding real sandboxing to any of them would
+  mean replacing their core mechanism, not extending it -- there is no
+  meaningful fork-and-add-a-feature path here, only fork-and-rewrite,
+  which isn't really forking. OSSF Package Analysis has the right
+  mechanism (real sandbox, real behavioral logging) but is built as
+  continuously-running cloud infrastructure (Go, GCP, BigQuery, Cloud
+  Run) for scanning an entire package ecosystem at internet scale --
+  forking it would import that whole infrastructure surface for a
+  single-machine, bounded, falsification-first student research
+  project that needs none of it. The mismatch is in scale and
+  operating model, not code quality.
+
+DECISION: build independently (Section 7), not fork (Section 5/6 do
+  not apply -- no license-check gate triggered, no repo-visibility
+  hold needed on that basis). picklescan, fickling, ModelScan, and
+  OSSF Package Analysis are all named in the README as design
+  influences/prior art, per this template's Section 7 instruction --
+  credited, not silently ignored.
+
+STEP 3 note: a close match does NOT exist for the specific combination
+  this project asks about -- stated plainly per this template's own
+  instruction that this is "a legitimate, expected outcome, not a
+  fallback to apologize for."
+
+================================================================================
+5. LICENSE CHECK (fork path only)
+================================================================================
+N/A -- independent build chosen (Section 4). No upstream license
+constraints apply to this project's own code. (License facts for the
+four named prior-art projects are recorded in Section 4 anyway, for
+the record and for the README's design-influence credit line.)
+
+================================================================================
+6. FORK AND CLONE (fork path only)
+================================================================================
+N/A -- independent build chosen (Section 4). See Section 7.
+
+================================================================================
+7. BUILD FROM SCRATCH (independent path)
+================================================================================
+Planned commands (not yet run -- Phase 0 is the brief; Section 12's
+"next steps" below is the actual sequencing):
+    gh repo create polygraph --public
+    git clone https://github.com/sopi22/polygraph.git polygraph
+    cd polygraph
+
+Git identity: already correct by construction -- this directory is
+  under `~/daughter-projects/`, which `~/.gitconfig`'s
+  `includeIf "gitdir:~/daughter-projects/"` rule already forces to
+  [SOPHIA]'s identity (name = Jhoana Sophia Munar, email =
+  jhosophie@proton.me) regardless of who is at the keyboard. Will be
+  confirmed with `git config user.name`/`user.email` immediately
+  before the first commit anyway, per this section's own instruction
+  -- not assumed silently.
+
+No upstream remote (independent build). picklescan, fickling,
+  ModelScan, and OSSF Package Analysis are credited in README.txt as
+  design influences only (Section 4's STEP 2 decision), not code
+  ancestry.
+
+================================================================================
+8. SECURITY, PRIVACY, AND DEVELOPMENT
+================================================================================
+.gitignore (to be created at Phase 1, when there's first code):
+  local config/env files, any personal notes/test data, cached files,
+  build output not needed in source control. No credentials are
+  expected to exist for this project at all (Section 3), so this is
+  precautionary, not covering a known current secret.
+No hardcoded secrets, ever -- restated, not just Section 3's rule.
+Clean, reasonably organized code -- this goes in a portfolio.
+Commit with a clear message, push to `origin` main after each real
+  milestone -- routine, no sign-off needed for that. History
+  rewrites/force-pushes remain a stop-and-ask case, no exception.
+No installer, no packaging, no licensing system -- runs directly from
+  source, same as Pulse and Claim Card.
+Commit attribution solely [SOPHIA] -- no "Co-Authored-By" naming
+  Claude or any AI tool, ever, anywhere in history. `git config
+  user.name`/`user.email` confirmed as hers before the first commit
+  (Section 7).
+
+================================================================================
+9. PROJECT DEFAULTS AND README
+================================================================================
+Default public (portfolio purpose) -- no graded-course or privacy
+  concern named for this specific project. Flagged, overridable.
+LICENSE: MIT, matching her own standing convention on her other two
+  repos -- not a default picked blind, matched to precedent.
+README order (per this template): what it does and why; tech stack;
+  design-influence credit (Section 4); exact copy-pasteable setup
+  commands; features list. No screenshot/demo section -- this is a
+  CLI/library tool, not a visual app (ties into Section 10 below).
+Never claims to work without having been run end-to-end first --
+  restated as a standing rule; not yet applicable, no code exists yet.
+Commits incremental, never one giant final commit -- same discipline
+  her other two repos already show (9-13 commits each across their
+  own Phase 0/1 work, not single mega-commits).
+
+================================================================================
+10. DEFAULT UI/UX GUIDANCE
+================================================================================
+SKIPPED -- this template's own instruction: skip for CLI/scripts/
+notebooks. Polygraph is a CLI research tool (same category as Pulse
+and Claim Card), not a GUI app. No UI/UX defaults apply.
+
+================================================================================
+11. DEFAULT FEATURE -- UPDATE CHECK
+================================================================================
+SKIPPED -- this template's own instruction: skip for CLI/libraries/
+notebooks. No versioned desktop/GUI release cycle exists for this
+project.
+
+================================================================================
+12. OPERATING PRINCIPLES
+================================================================================
+Will be cloned fresh into an empty folder and run following only
+  README.txt, as a first-time user would, before any phase is called
+  done -- not yet applicable, no code exists yet (Phase 0 only).
+Anything forked/inspired stays credited (Section 4's four named
+  projects, README design-influence line).
+One predictable, clearly-named output location for anything generated
+  (a single JSON report, matching Claim Card's own convention) -- to
+  be implemented Phase 1, named here as a constraint now.
+
+================================================================================
+13. CLARIFICATION GATE
+================================================================================
+Resolved before any scaffolding/code, per this template's own
+instruction -- flagged so any can be overridden.
+
+Q: What must it do -- priority-ordered v1 features?
+A: DECISION -- exactly two checks for Phase 1 (see the Entropy Budget
+   below): (1) a sandboxed behavioral load of a checkpoint file,
+   deliberately network-isolated and filesystem-restricted; (2) a
+   structural cross-check of the checkpoint's declared format claim
+   against its actual raw-byte format. Nothing else for v1 --
+   deliberately not the full "up to N checks" headroom some template
+   variants allow, matching Pulse's own demonstrated restraint.
+
+Q: Course/assignment context, specific technical requirements?
+A: Not stated by [SOPHIA] this session. Logged as unknown, not
+   assumed -- portfolio/learning framing (Section 0) stands regardless.
+
+Q: Specific upstream repo in mind, or search?
+A: Search was run (Section 4) -- no single close-match upstream
+   exists to fork; four prior-art projects credited as design
+   influence instead.
+
+Q: Repo name, public or private?
+A: DECISION -- `polygraph`, public (Section 9). Not yet checked for a
+   GitHub name collision -- flagged, not blocking a Phase 0 brief.
+
+Q: UI needed? Own design direction, or fallback?
+A: N/A -- CLI tool (Section 10).
+
+Q: Versioned releases worth an update check?
+A: N/A -- CLI tool (Section 11).
+
+Q: Anything in Sections 9-11 that shouldn't apply this time?
+A: Sections 10 and 11 both explicitly don't apply (CLI tool). Section
+   9's README order applies with the screenshot/demo line dropped,
+   for the same reason.
+
+Q: Is a parent/assistant present this session, and does the project
+   touch a personal device (triggers Section 3's boundary)?
+A: Yes, her father is present this session (Section 1). No personal
+   device is touched by Phase 0/1 as scoped (Section 3) -- named as a
+   trigger to revisit if that ever changes.
+
+Q: Model checkpoints, software packages, or both?
+A: DECISION -- checkpoints only for Phase 0. The search (Section 4)
+   found the gap open for both, but the behavioral-sandbox half
+   already has a real precedent for generic packages (OSSF Package
+   Analysis) and none at all for ML checkpoints specifically -- so
+   checkpoints is where a first bounded experiment adds the most new
+   evidence per unit of work. Packages are a plausible later phase,
+   not decided now.
+
+Q: What sandbox mechanism?
+A: DECISION -- bubblewrap (`bwrap`), confirmed already installed and
+   working in this environment with zero setup (`/usr/bin/bwrap`;
+   `unshare` from util-linux also present). Docker is available on the
+   host and was offered directly by the operator mid-session, but WSL
+   integration for this distro is currently off -- enabling it needs a
+   privileged step on the operator's own machine, and bwrap's
+   namespace isolation (`--unshare-net`, one writable bind mount,
+   everything else read-only) is sufficient for the two Phase-1 checks
+   without it. Named here as an available, deliberately-not-used-yet
+   escalation path (matches this template's own instruction:
+   containerization is a judgment call, not a default, state why if
+   proposed) -- not rejected outright, just not required yet.
+
+Q: Any new runtime dependency (torch, safetensors)?
+A: DECISION -- none. Neither is installed in this environment
+   (confirmed by import check). The two formats this project needs to
+   tell apart (pickle vs. safetensors) are both simple enough to
+   detect from raw bytes with the standard library alone: pickle's
+   opening bytes disassemble as recognizable protocol opcodes
+   (`pickletools`); safetensors' own public header spec is an 8-byte
+   little-endian header length followed by a JSON header, readable
+   with `struct`+`json`. Zero third-party runtime dependencies --
+   tighter than either of her own other two projects (Pulse: one adb
+   wrapper; Claim Card: stdlib + the `git` binary).
+
+================================================================================
+14. NEW PROJECT
+================================================================================
+What it is and why: Polygraph checks whether an AI model checkpoint's
+  own declared safety claim (e.g. a model card saying "safetensors
+  only, no pickle, no custom code on load") matches what actually
+  happens when the checkpoint is loaded inside an isolated sandbox --
+  a claims-vs-behavior cross-check that, per Section 4's search, does
+  not currently exist as a shipped tool for ML checkpoints, and only
+  half-exists (behavioral half only, no claims half) for generic
+  software packages.
+
+Priority-ordered v1 features (Phase 1, not yet built):
+  1. `sandboxed_load` check -- bwrap-isolated load of a checkpoint
+     file (network fully unshared, filesystem read-only except one
+     scratch dir), observing PASS/FAIL on whether anything happened
+     outside the declared boundary.
+  2. Deliberate FAIL-detection case for check 1 (required before any
+     PASS result counts, same discipline Pulse and Claim Card both
+     hold themselves to): a hand-constructed malicious pickle payload
+     (the well-documented `__reduce__` -> `os.system` technique)
+     confirmed to actually get caught as FAIL, not silently pass.
+  3. `declared_format_cross_check` -- compares a checkpoint's claimed
+     format (from an accompanying model card/doc) against its actual
+     raw-byte format (pickle vs. safetensors), independent of check 1.
+  4. A combined report (single JSON file, one predictable location,
+     Section 12) showing both checks' results together per artifact --
+     the actual new synthesis this project is testing, not either
+     check alone.
+
+Full research hypothesis, falsification criteria, vocabulary lock, and
+  entropy budget are in RESEARCH_HYPOTHESIS.txt (kept as a separate
+  file this time, rather than folded into this template's own Section
+  4, so this brief stays a clean match to the operator-supplied
+  template structure and the falsification framing stays a clean
+  match to her other two projects' own convention).
+
+Course/context overrides to Sections 8-12: none -- all apply as
+  written above.
