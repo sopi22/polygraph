@@ -101,19 +101,37 @@ more words)
 IF THERE'S TIME FOR Q&A -- LIKELY QUESTIONS
 --------------------------------------------------------------------------------
 Q: "Does this replace picklescan/those other scanners?"
-A: "No, and it shouldn't -- they're fast and they're complementary.
-   Ours is slower because it actually runs the file. Best case is
-   both: static first, behavioral as the deeper check."
+A: "No, they're fast and complementary -- ours actually runs the
+   file. Best case is both: static first, behavioral as the deeper
+   check."
 
 Q: "What happens with a real, huge model file, not your tiny test
    fixture?"
-A: "Same mechanism, we just haven't run it against a real downloaded
-   Hugging Face checkpoint yet -- that's explicitly our next step, not
-   something we're claiming already works. We were honest about that
-   limit in our own write-up before you asked."
+A: "Same mechanism, it just hasn't been run at that scale yet --
+   that's a named gap, not something we've solved. To be precise:
+   Polygraph doesn't do syscall tracing. It watches side effects --
+   does anything get written outside the one scratch directory it's
+   allowed to touch, does the process hit something the sandbox
+   blocks and leave a signature in stderr. That check doesn't get
+   more complex with file size. What could actually break at scale is
+   different: does loading a multi-gigabyte checkpoint blow past the
+   sandbox's timeout, and for safetensors specifically, does it stay
+   cheap -- since that format only ever reads the header, not the
+   tensor data itself. Those are the real open questions, and they're
+   untested."
 
 Q: "Isn't a sandboxed process still risky to run at all?"
-A: "That's exactly why it's a locked-down namespace with no network
-   and a read-only filesystem, not a bare subprocess call -- and why
-   we deliberately tried to break it with a real attack before
-   trusting a single PASS result."
+A: "Yes, and we don't claim otherwise -- no userspace sandbox is a
+   perfect boundary. bubblewrap gives strong isolation, not absolute
+   isolation: no network access at all, one writable scratch
+   directory, everything else locked down. It's the same sandboxing
+   primitive Flatpak uses to isolate every desktop app on Linux, so
+   it's a proven, widely-deployed tool, not something we built from
+   scratch. The honest caveat: a sophisticated enough kernel-level
+   exploit could theoretically escape any userspace sandbox, including
+   this one. We actually found and fixed a real isolation gap
+   ourselves during development, which is the kind of testing this
+   needs -- not a build-once-and-hope. If someone needed a harder
+   boundary than this, the upgrade path is something like gVisor or a
+   full VM -- the same approach OSSF Package Analysis actually uses --
+   which is a reasonable next step, not a redesign."
