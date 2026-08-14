@@ -297,6 +297,12 @@ Default public (portfolio purpose) -- no graded-course or privacy
   concern named for this specific project. Flagged, overridable.
 LICENSE: MIT, matching her own standing convention on her other two
   repos -- not a default picked blind, matched to precedent.
+Attribution requirement (operator-directed, stated explicitly per this
+  template's own emphasis on credit and license integrity, Sections
+  4-5): LICENSE and copyright notices MUST remain intact in any fork
+  or redistribution of this repo -- no removing or replacing Jhoana
+  Sophia Munar's attribution. Stated in README.txt's own Attribution
+  section, not only here.
 README order (per this template): what it does and why; tech stack;
   design-influence credit (Section 4); exact copy-pasteable setup
   commands; features list. No screenshot/demo section -- this is a

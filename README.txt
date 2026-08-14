@@ -80,3 +80,9 @@ AUTHOR
 ------
 Jhoana Sophia Munar -- first-year IT student, Mapua University,
 Makati (2026). (jhosophie@proton.me)
+
+ATTRIBUTION
+------------
+LICENSE and copyright notices MUST remain intact in any fork or
+redistribution of this repo -- no removing or replacing Jhoana Sophia
+Munar's attribution.
