@@ -74,7 +74,7 @@ EXAMPLE OUTPUT (real, captured by actually running the command above)
 
       [sandboxed_load] load wrote to the sandbox's writable directory:
       ['polygraph_marker_of_compromise'] (a clean load should write
-      nothing)
+      nothing) -- stderr:
       [declared_format_cross_check] declared format 'pickle' matches
       actual format 'pickle'
 
