@@ -1,17 +1,14 @@
 POLYGRAPH -- RESEARCH HYPOTHESIS, VOCABULARY LOCK, ENTROPY BUDGET,
-AND CHECK SELECTION
-=====================================================================
-Companion to RESEARCH.txt (the operator-supplied "Fork or Build"
+# AND CHECK SELECTION
+Companion to RESEARCH.md (the operator-supplied "Fork or Build"
 template brief, Sections 0-14). This file holds the falsification-
 first framing in the same convention Jhoana's other two projects
 (FOSS Pulse, Claim Card) already use, so it isn't folded awkwardly
-into a template section that wasn't built for it. See RESEARCH.txt
+into a template section that wasn't built for it. See RESEARCH.md
 Section 4 for the full novelty-firewall search this hypothesis is
 downstream of -- not repeated here.
 
-================================================================================
-1. RESEARCH HYPOTHESIS FRAMING
-================================================================================
+## 1. RESEARCH HYPOTHESIS FRAMING
 
 RESEARCH HYPOTHESIS (H1):
 A checkpoint's self-declared safety posture can be checked against
@@ -47,9 +44,7 @@ interesting result (supports H1). Total agreement across every real
 artifact tested is also a complete, honest experiment (supports H0),
 not a failure to explain away.
 
-================================================================================
-2. VOCABULARY LOCK AND ENTROPY BUDGET
-================================================================================
+## 2. VOCABULARY LOCK AND ENTROPY BUDGET
 
 Locked: claim, probe, observation, sandbox, cross-check. (Deliberately
   reusing Pulse's "probe/observation" and Claim Card's "claim" -- this
@@ -64,7 +59,7 @@ Entropy budget:
     declared-format structural cross-check) -- deliberately not using
     the full headroom either sibling project left itself.
   Persistent format: 1 (JSON), matching both sibling projects.
-  Sandbox mechanism: 1 (bubblewrap) -- see RESEARCH.txt Clarification
+  Sandbox mechanism: 1 (bubblewrap) -- see RESEARCH.md Clarification
     Gate for why, and why Docker is named but deliberately not used.
   Network calls from the framework itself: 0. Test artifacts are
     constructed locally, not fetched live per run.
@@ -75,9 +70,7 @@ Entropy budget:
     pytest as a dev-only dependency, same justification pattern as
     both sibling projects.
 
-================================================================================
-3. CHECK SELECTION AND JUSTIFICATION
-================================================================================
+## 3. CHECK SELECTION AND JUSTIFICATION
 
 CHECK 1 -- sandboxed_load (behavioral, Pulse's DNA)
   Assumption under test: loading this checkpoint file touches nothing
@@ -139,9 +132,7 @@ THE CROSS-CHECK (the actual new synthesis, not either check alone):
       Not yet known to exist -- Phase 1's job to look for it, not
       assumed here.
 
-================================================================================
-4. FALSIFICATION REPORT (R0 -- Phase 1, bounded synthetic test set)
-================================================================================
+## 4. FALSIFICATION REPORT (R0 -- Phase 1, bounded synthetic test set)
 
 TEST SET: four hand-constructed fixtures (safe_safetensors.bin,
   safe_pickle.pkl, malicious_pickle.pkl,
@@ -193,7 +184,7 @@ RESULT ON H1 vs. H0:
   sandboxed-load result (CHECK 1: FAIL). A reviewer relying on CHECK 2
   alone -- or on any static tool that only validates whether a format
   claim is honest, which describes every static scanner named in
-  RESEARCH.txt's novelty firewall -- would see nothing wrong with this
+  RESEARCH.md's novelty firewall -- would see nothing wrong with this
   file: it truthfully says it's a pickle file, and it is one. Only
   CHECK 1's behavioral signal caught the actual risk. This is
   precisely the case Section 3's "THE CROSS-CHECK" named in advance as
@@ -228,5 +219,4 @@ RECOMMENDED NEXT EXPERIMENT (open item, not scheduled): test against a
   repo -- to see whether both checks produce the same clean signal on
   real-world artifacts as on the hand-built ones here. This is the
   natural R1 rung, mirroring Pulse's own R0 (synthetic/local) -> R1
-  (first real device) progression.
-================================================================================
+#   (first real device) progression.

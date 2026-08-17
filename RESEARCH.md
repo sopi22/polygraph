@@ -1,12 +1,9 @@
-POLYGRAPH -- PROJECT BRIEF
-============================
+# POLYGRAPH -- PROJECT BRIEF
 Following the operator-supplied "Sophia's University / FOSS -- Fork or
 Build (App)" template, verbatim section order. [SOPHIA] = Jhoana Sophia
 Munar throughout, per the template's own instruction.
 
-================================================================================
-0. ROLE AND SCOPE
-================================================================================
+## 0. ROLE AND SCOPE
 [SOPHIA] (Jhoana Sophia Munar) is the operator and lead developer of
 this project. It is hers -- for learning, coursework, and/or
 portfolio, explicitly NOT commercial. Her father (git identity
@@ -24,9 +21,7 @@ a different brief.
 
 Fork-or-build is not assumed here -- follows from Section 4 below.
 
-================================================================================
-1. OPERATOR CONTEXT
-================================================================================
+## 1. OPERATOR CONTEXT
 Name: Jhoana Sophia Munar ("[SOPHIA]")
 Status: first-year IT student, Mapua University, Makati, 2026.
 GitHub account: sopi22 (jhosophie@proton.me)
@@ -43,9 +38,7 @@ Assisting adult present this session: her father (operator, "Trozovka"
   git identity), by his own statement in this session.
 Account/plan constraints: none stated.
 
-================================================================================
-2. AUTONOMY PROTOCOL
-================================================================================
+## 2. AUTONOMY PROTOCOL
 Operating autonomously through routine steps (installing packages,
 writing/editing files, running tests, git commit/push, repo creation)
 per this template's instruction, reporting back plainly rather than
@@ -67,9 +60,7 @@ not re-decided per action:
       to the assisting adult rather than [SOPHIA] -- always stop,
       never substitute (see Section 0).
 
-================================================================================
-3. SECURITY AND PRIVACY -- NON-NEGOTIABLE
-================================================================================
+## 3. SECURITY AND PRIVACY -- NON-NEGOTIABLE
 - No hardcoded secrets, ever, from commit one. This project's Phase 0
   design (Section 4) needs zero secrets/tokens of any kind to run --
   no external API, no network call from the tool itself -- so this is
@@ -107,9 +98,7 @@ not re-decided per action:
   job. A one-time manual action (logging in, clicking a setting) is
   preferred over minting a standing token for a one-off need.
 
-================================================================================
-4. PHASE 0 -- SEARCH, DECIDE, AND ACT
-================================================================================
+## 4. PHASE 0 -- SEARCH, DECIDE, AND ACT
 
 RESEARCH QUESTION (this project's own, feeding the search below):
 Does a self-declared safety claim about an AI model checkpoint (e.g.
@@ -234,22 +223,16 @@ STEP 3 note: a close match does NOT exist for the specific combination
   instruction that this is "a legitimate, expected outcome, not a
   fallback to apologize for."
 
-================================================================================
-5. LICENSE CHECK (fork path only)
-================================================================================
+## 5. LICENSE CHECK (fork path only)
 N/A -- independent build chosen (Section 4). No upstream license
 constraints apply to this project's own code. (License facts for the
 four named prior-art projects are recorded in Section 4 anyway, for
 the record and for the README's design-influence credit line.)
 
-================================================================================
-6. FORK AND CLONE (fork path only)
-================================================================================
+## 6. FORK AND CLONE (fork path only)
 N/A -- independent build chosen (Section 4). See Section 7.
 
-================================================================================
-7. BUILD FROM SCRATCH (independent path)
-================================================================================
+## 7. BUILD FROM SCRATCH (independent path)
 Planned commands (not yet run -- Phase 0 is the brief; Section 12's
 "next steps" below is the actual sequencing):
     gh repo create polygraph --public
@@ -266,13 +249,11 @@ Git identity: already correct by construction -- this directory is
   -- not assumed silently.
 
 No upstream remote (independent build). picklescan, fickling,
-  ModelScan, and OSSF Package Analysis are credited in README.txt as
+  ModelScan, and OSSF Package Analysis are credited in README.md as
   design influences only (Section 4's STEP 2 decision), not code
   ancestry.
 
-================================================================================
-8. SECURITY, PRIVACY, AND DEVELOPMENT
-================================================================================
+## 8. SECURITY, PRIVACY, AND DEVELOPMENT
 .gitignore (to be created at Phase 1, when there's first code):
   local config/env files, any personal notes/test data, cached files,
   build output not needed in source control. No credentials are
@@ -290,9 +271,7 @@ Commit attribution solely [SOPHIA] -- no "Co-Authored-By" naming
   user.name`/`user.email` confirmed as hers before the first commit
   (Section 7).
 
-================================================================================
-9. PROJECT DEFAULTS AND README
-================================================================================
+## 9. PROJECT DEFAULTS AND README
 Default public (portfolio purpose) -- no graded-course or privacy
   concern named for this specific project. Flagged, overridable.
 LICENSE: MIT, matching her own standing convention on her other two
@@ -301,7 +280,7 @@ Attribution requirement (operator-directed, stated explicitly per this
   template's own emphasis on credit and license integrity, Sections
   4-5): LICENSE and copyright notices MUST remain intact in any fork
   or redistribution of this repo -- no removing or replacing Jhoana
-  Sophia Munar's attribution. Stated in README.txt's own Attribution
+  Sophia Munar's attribution. Stated in README.md's own Attribution
   section, not only here.
 README order (per this template): what it does and why; tech stack;
   design-influence credit (Section 4); exact copy-pasteable setup
@@ -313,25 +292,19 @@ Commits incremental, never one giant final commit -- same discipline
   her other two repos already show (9-13 commits each across their
   own Phase 0/1 work, not single mega-commits).
 
-================================================================================
-10. DEFAULT UI/UX GUIDANCE
-================================================================================
+## 10. DEFAULT UI/UX GUIDANCE
 SKIPPED -- this template's own instruction: skip for CLI/scripts/
 notebooks. Polygraph is a CLI research tool (same category as Pulse
 and Claim Card), not a GUI app. No UI/UX defaults apply.
 
-================================================================================
-11. DEFAULT FEATURE -- UPDATE CHECK
-================================================================================
+## 11. DEFAULT FEATURE -- UPDATE CHECK
 SKIPPED -- this template's own instruction: skip for CLI/libraries/
 notebooks. No versioned desktop/GUI release cycle exists for this
 project.
 
-================================================================================
-12. OPERATING PRINCIPLES
-================================================================================
+## 12. OPERATING PRINCIPLES
 Will be cloned fresh into an empty folder and run following only
-  README.txt, as a first-time user would, before any phase is called
+  README.md, as a first-time user would, before any phase is called
   done -- not yet applicable, no code exists yet (Phase 0 only).
 Anything forked/inspired stays credited (Section 4's four named
   projects, README design-influence line).
@@ -339,9 +312,7 @@ One predictable, clearly-named output location for anything generated
   (a single JSON report, matching Claim Card's own convention) -- to
   be implemented Phase 1, named here as a constraint now.
 
-================================================================================
-13. CLARIFICATION GATE
-================================================================================
+## 13. CLARIFICATION GATE
 Resolved before any scaffolding/code, per this template's own
 instruction -- flagged so any can be overridden.
 
@@ -419,9 +390,7 @@ A: DECISION -- none. Neither is installed in this environment
    tighter than either of her own other two projects (Pulse: one adb
    wrapper; Claim Card: stdlib + the `git` binary).
 
-================================================================================
-14. NEW PROJECT
-================================================================================
+## 14. NEW PROJECT
 What it is and why: Polygraph checks whether an AI model checkpoint's
   own declared safety claim (e.g. a model card saying "safetensors
   only, no pickle, no custom code on load") matches what actually
@@ -450,7 +419,7 @@ Priority-ordered v1 features (Phase 1, not yet built):
      check alone.
 
 Full research hypothesis, falsification criteria, vocabulary lock, and
-  entropy budget are in RESEARCH_HYPOTHESIS.txt (kept as a separate
+  entropy budget are in RESEARCH_HYPOTHESIS.md (kept as a separate
   file this time, rather than folded into this template's own Section
   4, so this brief stays a clean match to the operator-supplied
   template structure and the falsification framing stays a clean
@@ -459,15 +428,13 @@ Full research hypothesis, falsification criteria, vocabulary lock, and
 Course/context overrides to Sections 8-12: none -- all apply as
   written above.
 
-================================================================================
-15. RESEARCH LINEAGE -- EVIDENCE MAPPING
-================================================================================
-Concrete citations for the "Research Lineage" claim in README.txt --
+## 15. RESEARCH LINEAGE -- EVIDENCE MAPPING
+Concrete citations for the "Research Lineage" claim in README.md --
 each claim mapped to specific evidence already in this repo, not
 restated as assertion. Precision note before the mapping: this
 repo's own brief doesn't use the literal words "novelty firewall"
 anywhere -- that is the section title Pulse's and Claim Card's own
-template uses (see their own RESEARCH.txt Section 2 in each repo).
+template uses (see their own RESEARCH.md Section 2 in each repo).
 Polygraph follows a different operator-supplied template (Section 0
 above), where the equivalent process is titled "Search, Decide, and
 Act." Same function -- read real docs before deciding, name the
@@ -491,7 +458,7 @@ EVIDENCE: Section 4 above, "PHASE 0 -- SEARCH, DECIDE, AND ACT" -- an
 
 CLAIM: falsification framing (a hypothesis and its falsification
   criteria stated before testing, not after).
-EVIDENCE: RESEARCH_HYPOTHESIS.txt Section 1, "RESEARCH HYPOTHESIS
+EVIDENCE: RESEARCH_HYPOTHESIS.md Section 1, "RESEARCH HYPOTHESIS
   FRAMING" -- states H1 and H0 explicitly, plus "FALSIFICATION
   CRITERIA (stated in advance)" before Phase 1 implementation began.
   Same pre-registration discipline PULSE EXPERIMENT 001 -- RESEARCH
@@ -501,7 +468,7 @@ EVIDENCE: RESEARCH_HYPOTHESIS.txt Section 1, "RESEARCH HYPOTHESIS
 CLAIM: the "not tested on a real checkpoint yet" gap is a named,
   deferred caveat -- not silently dropped, and not rushed to a false
   closure to make the result look more finished than it is.
-EVIDENCE: RESEARCH_HYPOTHESIS.txt Section 4, "FALSIFICATION REPORT (R0
+EVIDENCE: RESEARCH_HYPOTHESIS.md Section 4, "FALSIFICATION REPORT (R0
   -- Phase 1, bounded synthetic test set)". The CAVEAT paragraph states
   directly that the result is from "a synthetic, deliberately-
   constructed case... not that this class of case occurs naturally in
@@ -510,5 +477,4 @@ EVIDENCE: RESEARCH_HYPOTHESIS.txt Section 4, "FALSIFICATION REPORT (R0
   naturally-authored checkpoints -- no real artifact has been tested."
   RECOMMENDED NEXT EXPERIMENT is explicitly labeled "(open item, not
   scheduled)" -- named as the next R1 rung, not attempted, not
-  claimed, and not closed over.
-================================================================================
+#   claimed, and not closed over.

@@ -1,11 +1,9 @@
-POLYGRAPH
-===========
+# POLYGRAPH
 A lie detector for AI models.
 
 Project page: https://sopi22.github.io/polygraph/
 
-WHAT IT DOES AND WHY
-----------------------
+## WHAT IT DOES AND WHY
 Polygraph checks an AI model checkpoint's own claim about itself (e.g.
 a model card saying "safetensors only, no pickle, no custom code on
 load") against what the checkpoint actually does when loaded inside an
@@ -15,13 +13,12 @@ never actually runs the file, so none of them has a behavioral signal
 to check a claim against; a 2026 attack called ShadowPickle was built
 specifically to beat that entire category of tool and bypassed it 63%
 of the time. Polygraph's own falsification-first research log
-(RESEARCH_HYPOTHESIS.txt) found a real case a claims-only check
+(RESEARCH_HYPOTHESIS.md) found a real case a claims-only check
 structurally cannot catch: a checkpoint that is HONESTLY labeled
 "pickle" -- no dishonesty at all -- can still be malicious, and only
 running it in a sandbox reveals that.
 
-TECH STACK
------------
+## TECH STACK
 Python, standard library only at runtime -- no torch, no safetensors
 package, no third-party dependency of any kind (pytest is a dev-only
 dependency, for the test suite). Sandbox: bubblewrap (`bwrap`), a
@@ -29,13 +26,12 @@ Linux namespace-isolation primitive (the same one Flatpak uses to
 sandbox desktop apps), invoked as a subprocess. Docker is deliberately
 NOT used -- bwrap already provides the isolation this project needs
 with zero setup, and adding Docker would mean a privileged host-level
-step for no functional gain. See RESEARCH.txt's Clarification Gate for
+step for no functional gain. See RESEARCH.md's Clarification Gate for
 the full reasoning.
 
-NOT A FORK -- DESIGN INFLUENCES ONLY
----------------------------------------
+## NOT A FORK -- DESIGN INFLUENCES ONLY
 This is an independent build, not a fork of anything. Before building,
-a real reuse evaluation (RESEARCH.txt Section 4) checked whether to
+a real reuse evaluation (RESEARCH.md Section 4) checked whether to
 fork an existing project instead -- these four were read in full and
 credited as design influences, not code ancestry:
   - picklescan (mmaitre314) and fickling (Trail of Bits) -- static
@@ -50,8 +46,7 @@ No code was copied from any of the four; no license compatibility
 question applies as a result (all four are permissively licensed
 anyway -- MIT, LGPL-3.0, or Apache-2.0).
 
-SETUP / RUN
-------------
+## SETUP / RUN
     python3 -m venv .venv
     source .venv/bin/activate
     pip install -e ".[dev]"
@@ -62,8 +57,7 @@ SETUP / RUN
 No Docker path exists or is needed -- see TECH STACK above. Requires
 the system `bwrap` (bubblewrap) binary on PATH; nothing else.
 
-EXAMPLE OUTPUT (real, captured by actually running the command above)
--------------------------------------------------------------------------
+## EXAMPLE OUTPUT (real, captured by actually running the command above)
     CHECKPOINT: examples/fixtures/malicious_pickle.pkl
     CLAIM FILE: examples/fixtures/claim_pickle.json
 
@@ -84,8 +78,7 @@ an honest label is not the same thing as a safe file. See DEMO
 SCENARIOS below for the full pair (this one, plus the obvious
 dishonest-label case), and DEMO_SCRIPT.txt for the walkthrough.
 
-FEATURES
----------
+## FEATURES
 - `sandboxed_load` -- loads a checkpoint inside a bwrap sandbox (real
   filesystem entirely read-only except one scratch directory, network
   fully unshared) and reports FAIL if anything appears in that
@@ -96,7 +89,7 @@ FEATURES
   caught before any PASS result is trusted.
 - `declared_format_cross_check` -- compares a checkpoint's claimed
   format (a small JSON sidecar file for now, see
-  RESEARCH_HYPOTHESIS.txt Section 3) against its real raw-byte format,
+  RESEARCH_HYPOTHESIS.md Section 3) against its real raw-byte format,
   detected with stdlib `pickletools`/`struct`/`json` only.
 - A single combined JSON report per artifact, one predictable output
   location.
@@ -105,8 +98,7 @@ FEATURES
 - CI: GitHub Actions runs the full test suite, live bwrap sandbox
   tests included, on every push/PR to main.
 
-DEMO SCENARIOS (both fixtures already committed under examples/fixtures/)
----------------------------------------------------------------------------
+## DEMO SCENARIOS (both fixtures already committed under examples/fixtures/)
 Two named cases, both using the same rigged checkpoint
 (malicious_pickle.pkl, a pickle whose __reduce__ writes a marker file
 on load) with two different claim files:
@@ -118,12 +110,11 @@ on load) with two different claim files:
      AND behaves maliciously when loaded.
 
   2. The case that actually makes the point -- see EXAMPLE OUTPUT
-     above (that's this exact scenario). RESEARCH_HYPOTHESIS.txt
+     above (that's this exact scenario). RESEARCH_HYPOTHESIS.md
      Section 4 names it as the actual evidence for this project's
      hypothesis, not the obvious dishonest-label case above.
 
-NON-GOALS
----------
+## NON-GOALS
 Not a general-purpose malware sandbox. Not a replacement for
 picklescan/fickling/ModelScan -- their static analysis is
 complementary, not competing. Not an LLM-judged safety review. Does
@@ -132,41 +123,35 @@ checkpoint is safe -- a sandboxed observation is one data point for
 human review, not a finding of fact. Not (yet) general Python/npm
 package auditing -- scoped to AI model checkpoints first.
 
-RESEARCH
----------
-Full falsification-first methodology in RESEARCH.txt (project brief,
-novelty firewall, fork-vs-build reasoning) and RESEARCH_HYPOTHESIS.txt
+## RESEARCH
+Full falsification-first methodology in RESEARCH.md (project brief,
+novelty firewall, fork-vs-build reasoning) and RESEARCH_HYPOTHESIS.md
 (hypothesis, entropy budget, per-check justification, falsification
 report). DEMO_SCRIPT.txt has the pitch/demo walkthrough.
 
-RESEARCH LINEAGE
-------------------
+## RESEARCH LINEAGE
 Polygraph follows the same falsification-first, novelty-firewall
 methodology used in Jhoana's other research logs: PULSE EXPERIMENT
 001 -- RESEARCH LOG and CLAIM CARD -- RESEARCH LOG. Both state a
 hypothesis and a falsification criterion before running anything,
 search for existing solutions before building, and log negative or
 partial results honestly rather than only positive ones. See
-RESEARCH.txt Section 15 for exactly where this repo applies that same
+RESEARCH.md Section 15 for exactly where this repo applies that same
 discipline, with citations, not just this claim restated.
 
-CI
----
+## CI
 GitHub Actions (.github/workflows/ci.yml) runs the full test suite,
 bwrap included, on every push/PR to main -- ubuntu-latest only,
 deliberately, since bwrap is Linux-specific.
 
-LICENSE
---------
+## LICENSE
 MIT. See LICENSE.
 
-AUTHOR
-------
+## AUTHOR
 Jhoana Sophia Munar -- first-year IT student, Mapua University,
 Makati (2026). (jhosophie@proton.me)
 
-ATTRIBUTION
-------------
+## ATTRIBUTION
 LICENSE and copyright notices MUST remain intact in any fork or
 redistribution of this repo -- no removing or replacing Jhoana Sophia
 Munar's attribution.
