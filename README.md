@@ -148,8 +148,7 @@ deliberately, since bwrap is Linux-specific.
 MIT. See LICENSE.
 
 ## AUTHOR
-Jhoana Sophia Munar -- first-year IT student, Mapua University,
-Makati (2026). (jhosophie@proton.me)
+Jhoana Sophia Munar (GitHub: [@sopi22](https://github.com/sopi22))
 
 ## ATTRIBUTION
 LICENSE and copyright notices MUST remain intact in any fork or

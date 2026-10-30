@@ -7,7 +7,7 @@ Munar throughout, per the template's own instruction.
 [SOPHIA] (Jhoana Sophia Munar) is the operator and lead developer of
 this project. It is hers -- for learning, coursework, and/or
 portfolio, explicitly NOT commercial. Her father (git identity
-"trzvk2025"/"Trozovka") may be present operating the keyboard on a
+"Trozovka") may be present operating the keyboard on a
 shared device, but per this template's own rule, his git identity,
 GitHub account, tokens, or credentials are never substituted for hers
 at any point -- enforced structurally, not just by intention: this
@@ -23,8 +23,8 @@ Fork-or-build is not assumed here -- follows from Section 4 below.
 
 ## 1. OPERATOR CONTEXT
 Name: Jhoana Sophia Munar ("[SOPHIA]")
-Status: first-year IT student, Mapua University, Makati, 2026.
-GitHub account: sopi22 (jhosophie@proton.me)
+Status: student researcher, 2026.
+GitHub account: sopi22
 Comfort level with coding/git/dev tooling: not directly stated by her
   this session -- not guessed at here. Her own prior repos
   (foss-escape-architecture, claim-card) show real fluency with
@@ -243,7 +243,7 @@ Git identity: already correct by construction -- this directory is
   under `~/daughter-projects/`, which `~/.gitconfig`'s
   `includeIf "gitdir:~/daughter-projects/"` rule already forces to
   [SOPHIA]'s identity (name = Jhoana Sophia Munar, email =
-  jhosophie@proton.me) regardless of who is at the keyboard. Will be
+  her GitHub account) regardless of who is at the keyboard. Will be
   confirmed with `git config user.name`/`user.email` immediately
   before the first commit anyway, per this section's own instruction
   -- not assumed silently.
