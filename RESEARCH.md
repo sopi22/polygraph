@@ -1,4 +1,10 @@
 # POLYGRAPH -- PROJECT BRIEF
+
+> **In plain words:** this is the planning document for polygraph: what it should do, what
+> I searched for before building (and why I built it myself instead of forking an existing
+> tool), and the safety rules I set for the project. The results are in
+> RESEARCH_HYPOTHESIS.md. Older wording below uses "claim" where the code now says "label".
+
 Following the operator-supplied "Sophia's University / FOSS -- Fork or
 Build (App)" template, verbatim section order. [SOPHIA] = Jhoana Sophia
 Munar throughout, per the template's own instruction.

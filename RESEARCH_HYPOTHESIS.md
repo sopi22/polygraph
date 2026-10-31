@@ -1,4 +1,11 @@
 POLYGRAPH -- RESEARCH HYPOTHESIS, VOCABULARY LOCK, ENTROPY BUDGET,
+
+> **In plain words:** what I expected polygraph to show, how each of its two checks works,
+> and what actually happened. The key result: a model file that is *honestly* labelled as a
+> pickle can still be malicious, and only opening it in the sandbox reveals that. "Hypothesis" =
+> what I expected; "falsification" = my attempt to prove myself wrong. Older wording below uses
+> "claim" where the code now says "label".
+
 # AND CHECK SELECTION
 Companion to RESEARCH.md (the operator-supplied "Fork or Build"
 template brief, Sections 0-14). This file holds the falsification-
