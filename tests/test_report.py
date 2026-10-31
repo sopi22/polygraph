@@ -13,7 +13,7 @@ pytestmark = pytest.mark.skipif(
 def test_combined_report_has_both_check_results(fixtures_dir, tmp_path):
     report = run_all_checks(
         str(fixtures_dir / "malicious_pickle.pkl"),
-        str(fixtures_dir / "claim_pickle.json"),
+        str(fixtures_dir / "label_pickle.json"),
     )
     checks = {r.check: r.observation.value for r in report.results}
     assert checks == {"sandboxed_load": "FAIL", "declared_format_cross_check": "PASS"}

@@ -19,7 +19,7 @@ class Observation(str, Enum):
 class CheckResult:
     """A single check's outcome on a single artifact. `check` is the
     provisional, deliberately unambitious identifier for what ran
-    (e.g. "sandboxed_load"), not a claim of architectural significance
+    (e.g. "sandboxed_load"), not a label of architectural significance
     -- same convention Pulse's ProbeResult already follows."""
 
     check: str

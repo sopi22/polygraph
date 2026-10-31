@@ -8,8 +8,8 @@ write nothing to disk and touch no network; anything that does either
 is the observation, checked by the caller after this process exits.
 
 `declared_format` here means "the format sniff_format() already
-determined," not an unverified claim from a model card -- naming
-avoided to prevent confusion with CHECK 2's own "declared claim"
+determined," not an unverified label from a model card -- naming
+avoided to prevent confusion with CHECK 2's own "declared label"
 concept, which is a different thing (see RESEARCH_HYPOTHESIS.txt).
 """
 

@@ -30,7 +30,7 @@ the file, so none can tell you what it actually does.
 The other half already exists too, just not for AI models: a project
 called OSSF Package Analysis actually sandboxes a file and watches it
 run -- for regular packages. It has the sandbox. It has no idea what
-the package claims about itself.
+the package says about itself.
 
 Nobody's put those two things together for AI models. That's
 Polygraph."
@@ -39,13 +39,13 @@ Polygraph."
 [0:45-2:00] LIVE DEMO -- run both commands for real, don't fake it
 --------------------------------------------------------------------------------
 SAY, before running scenario 1:
-"Here's a model checkpoint. It CLAIMS to be safetensors format --
+"Here's a model checkpoint. It SAYS it is safetensors format --
 that's the safe, modern format that can't execute code, period. Let's
 check it."
 
 RUN:
     polygraph examples/fixtures/malicious_pickle.pkl \
-        examples/fixtures/claim_mismatch.json
+        examples/fixtures/label_mismatch.json
 
 SAY, pointing at the red table:
 "Both checks go red. It's lying about its own format -- it's actually
@@ -59,7 +59,7 @@ SAY, before running scenario 2 -- THIS IS THE MOMENT THE PITCH HANGS ON:
 
 RUN:
     polygraph examples/fixtures/malicious_pickle.pkl \
-        examples/fixtures/claim_pickle.json
+        examples/fixtures/label_pickle.json
 
 SAY, pointing at the mixed table:
 "Same malicious file. This time it truthfully says 'I'm a pickle
@@ -84,14 +84,14 @@ just firewalled.
 We even found a real gap in our own first version: an attack outside
 the sandbox got blocked, but left no trace we were checking for, so
 it silently reported safe. We caught it by deliberately trying to
-break our own tool -- same falsification-first process behind our
-other two projects."
+break our own tool -- same try-to-break-it-first habit behind my
+other projects."
 
 --------------------------------------------------------------------------------
 [2:30-2:45] CLOSE
 --------------------------------------------------------------------------------
 SAY:
-"Polygraph doesn't ask a model what it claims to be. It watches what
+"Polygraph doesn't ask a model what it says it is. It watches what
 it actually does. A lie detector for AI models."
 
 (stop talking here -- let the last line land, don't undercut it with
@@ -121,7 +121,7 @@ A: "Same mechanism, it just hasn't been run at that scale yet --
    untested."
 
 Q: "Isn't a sandboxed process still risky to run at all?"
-A: "Yes, and we don't claim otherwise -- no userspace sandbox is a
+A: "Yes, and we don't pretend otherwise -- no userspace sandbox is a
    perfect boundary. bubblewrap gives strong isolation, not absolute
    isolation: no network access at all, one writable scratch
    directory, everything else locked down. It's the same sandboxing

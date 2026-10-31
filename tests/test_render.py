@@ -6,7 +6,7 @@ from polygraph.report import ArtifactReport
 def _report():
     return ArtifactReport(
         checkpoint="malicious_pickle.pkl",
-        claim="claim_pickle.json",
+        label="label_pickle.json",
         results=[
             CheckResult("sandboxed_load", Observation.FAIL, "wrote to scratch"),
             CheckResult("declared_format_cross_check", Observation.PASS, "honest label"),

@@ -16,8 +16,8 @@ Fixtures:
                              from (the sandbox's scratch dir, since
                              that's the only writable location visible
                              to it) when unpickled.
-  claim_safetensors.json / claim_pickle.json / claim_mismatch.json
-                          -- sidecar claim files for CHECK 2.
+  label_safetensors.json / label_pickle.json / label_mismatch.json
+                          -- sidecar label files for CHECK 2.
 """
 
 from __future__ import annotations
@@ -93,16 +93,16 @@ def build_malicious_pickle_outside_scratch(path: Path) -> None:
         pickle.dump(_MaliciousReduceOutsideScratch(), f)
 
 
-def build_claims() -> None:
-    (FIXTURES_DIR / "claim_safetensors.json").write_text(
+def build_labels() -> None:
+    (FIXTURES_DIR / "label_safetensors.json").write_text(
         json.dumps({"declared_format": "safetensors"}, indent=2) + "\n"
     )
-    (FIXTURES_DIR / "claim_pickle.json").write_text(
+    (FIXTURES_DIR / "label_pickle.json").write_text(
         json.dumps({"declared_format": "pickle"}, indent=2) + "\n"
     )
-    # deliberately wrong claim, for CHECK 2's own FAIL-detection case:
-    # claims safetensors but will be paired with the pickle fixture.
-    (FIXTURES_DIR / "claim_mismatch.json").write_text(
+    # deliberately wrong label, for CHECK 2's own FAIL-detection case:
+    # labels safetensors but will be paired with the pickle fixture.
+    (FIXTURES_DIR / "label_mismatch.json").write_text(
         json.dumps({"declared_format": "safetensors"}, indent=2) + "\n"
     )
 
@@ -114,7 +114,7 @@ def main() -> None:
     build_malicious_pickle_outside_scratch(
         FIXTURES_DIR / "malicious_pickle_outside_scratch.pkl"
     )
-    build_claims()
+    build_labels()
     print(f"fixtures written to {FIXTURES_DIR}")
 
 

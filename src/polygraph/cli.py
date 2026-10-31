@@ -13,14 +13,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="polygraph",
         description=(
-            "Cross-check an AI model checkpoint's declared format claim "
+            "Cross-check an AI model checkpoint's declared format label "
             "against what a sandboxed load actually observes. Every "
             "result is a flag for human review, not a finding of fact."
         ),
     )
     parser.add_argument("checkpoint", help="path to the checkpoint file")
     parser.add_argument(
-        "claim", help="path to a JSON claim file, e.g. {\"declared_format\": \"safetensors\"}"
+        "label", help="path to a JSON label file, e.g. {\"declared_format\": \"safetensors\"}"
     )
     parser.add_argument(
         "-o", "--out", default="polygraph-report.json",
@@ -32,7 +32,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    report = run_all_checks(args.checkpoint, args.claim)
+    report = run_all_checks(args.checkpoint, args.label)
     write_report(report, args.out)
 
     print(render_table(report, use_color=not args.no_color))

@@ -1,12 +1,12 @@
-"""CHECK 2 -- declared_format_cross_check (structural claims). See
+"""CHECK 2 -- declared_format_cross_check (structural labels). See
 RESEARCH_HYPOTHESIS.txt Section 3.
 
-Assumption under test: a checkpoint's accompanying claim about its own
+Assumption under test: a checkpoint's accompanying label about its own
 format matches what the file's own bytes actually are. Phase 1 uses a
-small, explicit sidecar JSON claim file (`{"declared_format": "..."}`)
+small, explicit sidecar JSON label file (`{"declared_format": "..."}`)
 rather than parsing a real model card -- named as a deliberate
 simplification, not silently done: real model-card parsing (reusing
-claim-card's own doc-discovery convention) is a later phase, not
+caveat-keeper's own doc-discovery convention) is a later phase, not
 required to get a first real reading on this check's own logic.
 """
 
@@ -20,10 +20,10 @@ from ..model import CheckResult, Observation
 
 
 def declared_format_cross_check(
-    checkpoint_path: str | Path, claim_path: str | Path
+    checkpoint_path: str | Path, label_path: str | Path
 ) -> CheckResult:
     checkpoint_path = Path(checkpoint_path)
-    claim_path = Path(claim_path)
+    label_path = Path(label_path)
 
     if not checkpoint_path.is_file():
         return CheckResult(
@@ -31,21 +31,21 @@ def declared_format_cross_check(
             Observation.UNKNOWN,
             f"no such checkpoint file: {checkpoint_path}",
         )
-    if not claim_path.is_file():
+    if not label_path.is_file():
         return CheckResult(
             "declared_format_cross_check",
             Observation.UNKNOWN,
-            f"no such claim file: {claim_path}",
+            f"no such label file: {label_path}",
         )
 
     try:
-        claim = json.loads(claim_path.read_text())
-        declared = claim["declared_format"]
+        label = json.loads(label_path.read_text())
+        declared = label["declared_format"]
     except (json.JSONDecodeError, KeyError) as exc:
         return CheckResult(
             "declared_format_cross_check",
             Observation.UNKNOWN,
-            f"claim file unreadable or missing 'declared_format': {exc}",
+            f"label file unreadable or missing 'declared_format': {exc}",
         )
 
     actual = sniff_format(str(checkpoint_path)).value

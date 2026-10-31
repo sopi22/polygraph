@@ -1,4 +1,4 @@
-"""Human-readable claimed-vs-observed table for the CLI. Pure
+"""Human-readable declared-vs-observed table for the CLI. Pure
 function, no side effects -- the JSON report (report.py) stays the
 one source of truth; this is presentation only, built on top of it,
 never a second place PASS/FAIL logic could diverge.
@@ -21,7 +21,7 @@ def render_table(report: ArtifactReport, use_color: bool = True) -> str:
     name_width = max(len(r.check) for r in report.results)
     lines = [
         f"CHECKPOINT: {report.checkpoint}",
-        f"CLAIM FILE: {report.claim}",
+        f"LABEL FILE: {report.label}",
         "",
         f"  {'CHECK':<{name_width}}  OBSERVED",
         f"  {'-' * name_width}  --------",

@@ -27,7 +27,7 @@ Status: student researcher, 2026.
 GitHub account: sopi22
 Comfort level with coding/git/dev tooling: not directly stated by her
   this session -- not guessed at here. Her own prior repos
-  (foss-escape-architecture, claim-card) show real fluency with
+  (phone-tryout, caveat-keeper) show real fluency with
   falsification-first research methodology and Python; inferred as a
   reasonable working assumption for explanatory depth, not stated as
   a fact she confirmed.
@@ -77,8 +77,8 @@ not re-decided per action:
   exceptions carved out for this project.
 - Personal information: kept out of code, commits, comments. Her real
   email already appears in README/LICENSE author lines by her own
-  standing convention on her other repos (foss-escape-architecture,
-  claim-card) -- not changed here, matching precedent, not introducing
+  standing convention on her other repos (phone-tryout,
+  caveat-keeper) -- not changed here, matching precedent, not introducing
   a new exposure.
 - 2FA reminder (stated plainly, not just logged): worth confirming
   2FA is enabled on the sopi22 GitHub account if it isn't already,
@@ -265,7 +265,7 @@ Commit with a clear message, push to `origin` main after each real
   milestone -- routine, no sign-off needed for that. History
   rewrites/force-pushes remain a stop-and-ask case, no exception.
 No installer, no packaging, no licensing system -- runs directly from
-  source, same as Pulse and Claim Card.
+  source, same as Pulse and Caveat Keeper.
 Commit attribution solely [SOPHIA] -- no "Co-Authored-By" naming
   Claude or any AI tool, ever, anywhere in history. `git config
   user.name`/`user.email` confirmed as hers before the first commit
@@ -295,7 +295,7 @@ Commits incremental, never one giant final commit -- same discipline
 ## 10. DEFAULT UI/UX GUIDANCE
 SKIPPED -- this template's own instruction: skip for CLI/scripts/
 notebooks. Polygraph is a CLI research tool (same category as Pulse
-and Claim Card), not a GUI app. No UI/UX defaults apply.
+and Caveat Keeper), not a GUI app. No UI/UX defaults apply.
 
 ## 11. DEFAULT FEATURE -- UPDATE CHECK
 SKIPPED -- this template's own instruction: skip for CLI/libraries/
@@ -309,7 +309,7 @@ Will be cloned fresh into an empty folder and run following only
 Anything forked/inspired stays credited (Section 4's four named
   projects, README design-influence line).
 One predictable, clearly-named output location for anything generated
-  (a single JSON report, matching Claim Card's own convention) -- to
+  (a single JSON report, matching Caveat Keeper's own convention) -- to
   be implemented Phase 1, named here as a constraint now.
 
 ## 13. CLARIFICATION GATE
@@ -388,7 +388,7 @@ A: DECISION -- none. Neither is installed in this environment
    little-endian header length followed by a JSON header, readable
    with `struct`+`json`. Zero third-party runtime dependencies --
    tighter than either of her own other two projects (Pulse: one adb
-   wrapper; Claim Card: stdlib + the `git` binary).
+   wrapper; Caveat Keeper: stdlib + the `git` binary).
 
 ## 14. NEW PROJECT
 What it is and why: Polygraph checks whether an AI model checkpoint's
@@ -406,7 +406,7 @@ Priority-ordered v1 features (Phase 1, not yet built):
      scratch dir), observing PASS/FAIL on whether anything happened
      outside the declared boundary.
   2. Deliberate FAIL-detection case for check 1 (required before any
-     PASS result counts, same discipline Pulse and Claim Card both
+     PASS result counts, same discipline Pulse and Caveat Keeper both
      hold themselves to): a hand-constructed malicious pickle payload
      (the well-documented `__reduce__` -> `os.system` technique)
      confirmed to actually get caught as FAIL, not silently pass.
@@ -433,7 +433,7 @@ Concrete citations for the "Research Lineage" claim in README.md --
 each claim mapped to specific evidence already in this repo, not
 restated as assertion. Precision note before the mapping: this
 repo's own brief doesn't use the literal words "novelty firewall"
-anywhere -- that is the section title Pulse's and Claim Card's own
+anywhere -- that is the section title Pulse's and Caveat Keeper's own
 template uses (see their own RESEARCH.md Section 2 in each repo).
 Polygraph follows a different operator-supplied template (Section 0
 above), where the equivalent process is titled "Search, Decide, and
@@ -462,7 +462,7 @@ EVIDENCE: RESEARCH_HYPOTHESIS.md Section 1, "RESEARCH HYPOTHESIS
   FRAMING" -- states H1 and H0 explicitly, plus "FALSIFICATION
   CRITERIA (stated in advance)" before Phase 1 implementation began.
   Same pre-registration discipline PULSE EXPERIMENT 001 -- RESEARCH
-  LOG and CLAIM CARD -- RESEARCH LOG both name in their own hypothesis
+  LOG and CAVEAT KEEPER -- RESEARCH LOG both name in their own hypothesis
   sections.
 
 CLAIM: the "not tested on a real checkpoint yet" gap is a named,

@@ -1,10 +1,10 @@
 """Pure, stdlib-only detection of a checkpoint file's real structural
-format from its raw bytes -- independent of any claim made about it,
+format from its raw bytes -- independent of any label made about it,
 and independent of the sandboxed-load check. Never executes the
 file's content; only reads and disassembles bytes.
 
 Approximate, like every pattern-based check in this project family
-(see claim-card's own vocab/entropy regexes): a heuristic for human
+(see caveat-keeper's own vocab/entropy regexes): a heuristic for human
 review, not a rigorous format identifier or a finding of fact.
 """
 

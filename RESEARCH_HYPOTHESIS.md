@@ -3,7 +3,7 @@ POLYGRAPH -- RESEARCH HYPOTHESIS, VOCABULARY LOCK, ENTROPY BUDGET,
 Companion to RESEARCH.md (the operator-supplied "Fork or Build"
 template brief, Sections 0-14). This file holds the falsification-
 first framing in the same convention Jhoana's other two projects
-(FOSS Pulse, Claim Card) already use, so it isn't folded awkwardly
+(FOSS Pulse, Caveat Keeper) already use, so it isn't folded awkwardly
 into a template section that wasn't built for it. See RESEARCH.md
 Section 4 for the full novelty-firewall search this hypothesis is
 downstream of -- not repeated here.
@@ -47,12 +47,12 @@ not a failure to explain away.
 ## 2. VOCABULARY LOCK AND ENTROPY BUDGET
 
 Locked: claim, probe, observation, sandbox, cross-check. (Deliberately
-  reusing Pulse's "probe/observation" and Claim Card's "claim" -- this
+  reusing Pulse's "probe/observation" and Caveat Keeper's "claim" -- this
   project is an explicit synthesis of both, not a fresh vocabulary.)
 Forbidden: verified, proven, guaranteed, confirmed, safe, malicious --
   about what this tool's own output claims. A sandboxed observation is
   a flag for human review, not a finding of fact -- same epistemic
-  posture Claim Card already enforces on its own output.
+  posture Caveat Keeper already enforces on its own output.
 
 Entropy budget:
   Check types: 2 maximum for Phase 1 (sandboxed behavioral load,
@@ -199,7 +199,7 @@ CAVEAT, stated plainly, not glossed over: this is a synthetic,
   this class of case), not that this class of case occurs naturally in
   real, independently-authored checkpoints. That is a materially
   different, weaker claim, and the distinction is named here on
-  purpose -- the same distinction Claim Card's own Section 10 drew
+  purpose -- the same distinction Caveat Keeper's own Section 10 drew
   between "checks work on a synthetic fixture with known ground
   truth" and "checks find something on a real repo with
   naturally-occurring content."

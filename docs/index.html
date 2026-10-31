@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Polygraph</title>
-<meta name="description" content="A lie detector for AI models -- checks what a checkpoint claims against what it actually does when loaded." />
+<meta name="description" content="A lie detector for AI models -- checks what an AI model file says it is against what it actually does when opened." />
 <style>
   :root {
     --bg: #edeff0;
@@ -210,11 +210,11 @@
 <div class="sheet">
 
   <header class="masthead">
-    <div class="eyebrow">Case File &mdash; Model Checkpoint Verification</div>
+    <div class="eyebrow">Case File &mdash; AI Model File Check</div>
     <h1>Polygraph</h1>
     <p class="pitch">
       A lie detector for AI models &mdash; <strong>Polygraph checks what a
-      checkpoint claims about itself against what it actually does when
+      model file says about itself against what it actually does when
       loaded</strong>, not just whether the label is honest.
     </p>
   </header>
@@ -234,7 +234,7 @@
     <h2>Exhibit A: an honest label isn't a safe file</h2>
     <p class="case-line">
       checkpoint: <b>malicious_pickle.pkl</b> &nbsp;&middot;&nbsp;
-      claim: <b>declared_format = pickle</b> (truthful &mdash; no dishonesty to catch)
+      label: <b>declared_format = pickle</b> (truthful &mdash; no dishonesty to catch)
     </p>
     <div class="evidence">
       <table>
